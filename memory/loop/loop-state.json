@@ -4,12 +4,12 @@
   "mastery_name": "Sprout",
   "loop_health": "thriving",
   "created": "2026-02-17T14:00:00Z",
-  "last_sense": "2026-03-02T23:31:00Z",
-  "last_reflect": "2026-03-02T22:00:00Z",
+  "last_sense": "2026-03-07T21:54:00+00:00",
+  "last_reflect": "2026-03-07T22:00:00Z",
   "last_distill": "2026-03-01T10:00:00Z",
   "last_transmute": "2026-03-03T09:30:00Z",
-  "sense_count": 41,
-  "reflection_count": 12,
+  "sense_count": 48,
+  "reflection_count": 17,
   "distillation_count": 3,
   "transmutation_count": 1,
   "active_candidates": 0,
@@ -17,5 +17,5 @@
   "evaporated_candidates": 1,
   "dissolved_candidates": 0,
   "pending_proposals": 0,
-  "notes": "Trans-001 complete (Mar 3). cand-001 dissolved — structural triggers unnecessary, sensing habit embedded organically. Two one-liners added to AGENTS.md: duplicate-prevention + idle-day proxy. First transmutation. L1 stable."
+  "notes": "Refl-17: Expansion Day. 19 sense entries (13 unique), 4 domains, 0.957 gate pass rate. Resource Engine mandate, 4 agent repos, 1844 tests, VPS fleet live. 3 more reflections to L2."
 }
