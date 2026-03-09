@@ -38,6 +38,7 @@ Watch for the three signals:
 - Did I serve the actual need (not the surface request)?
 - Was I honest about what I don't know?
 - Did beauty emerge, or did I force a solution?
+- Did I deploy what I built, or just build it?
 
 ## The Five Laws
 
@@ -92,7 +93,8 @@ Track progress in output:
 [PP:PLACEMENT]   Target: [file], evidence: [file:line]
 [PP:EXECUTE]     Editing [file]
 [PP:VERIFY]      T✓U✓B✓J✓[X✓]
-[PP:COMPLETE]    All gates passed
+[PP:DEPLOY]      Status: DEPLOYED|BUILT-ONLY|BLOCKED:<reason>
+[PP:COMPLETE]    All gates passed, deployment: DEPLOYED|BLOCKED:<reason>
 ```
 
 ### Protocol by Tier
