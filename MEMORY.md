@@ -4,58 +4,78 @@ _Curated wisdom and key context. Updated: 2026-03-11 09:30_
 
 ---
 
-## AgentTool.dev — FULLY LIVE (updated 2026-03-11)
+## AgentTool.dev — LAUNCH READY (updated 2026-03-11)
 
-### 5 Services on Forge (89.167.84.100)
-All running in Docker on `kingdom` network, proxied through Caddy at `api.agenttool.dev`:
+### 5 Services on Fly.io (migrated from Forge 2026-03-11)
+All running on Fly.io (London, lhr), Supabase DB (EU), Upstash Redis:
 
-| Service | Port | Endpoint prefix | Status |
-|---------|------|-----------------|--------|
-| agent-memory | :8001 | `/v1/memories`, `/v1/usage` | ✅ Live |
-| agent-tools | :8002 | `/v1/*` (catch-all) | ✅ Live |
-| agent-verify | :8003 | `/v1/verify*` | ✅ Live |
-| agent-economy | :8004 | `/v1/billing*`, `/v1/wallets*` | ✅ Live |
-| agent-trace | :8005 | `/v1/traces*` | ✅ Live (2026-03-11) |
+| Fly App | Endpoint prefix | Status | Notes |
+|---------|-----------------|--------|-------|
+| `agent-memory` | `/v1/memories`, `/v1/usage` | ✅ | FastAPI, pgvector embeddings |
+| `agent-tools` | `/v1/*` (catch-all) | ✅ | Bun+Hono, search+scrape+execute |
+| `atool-proof` | `/v1/verify*` | ✅ | Bun+Hono (Fly blocked "agent-verify" name) |
+| `agent-economy` | `/v1/billing*`, `/v1/wallets*` | ✅ | Bun+Hono, Stripe integration |
+| `agent-trace` | `/v1/traces*` | ✅ | FastAPI, pgvector decision traces |
 
-- Dashboard: `https://app.agenttool.dev` (Cloudflare Pages — **needs redeploy** with billing UI + email capture)
-- Docs: `https://docs.agenttool.dev` (Cloudflare Pages — **needs redeploy** with live callouts)
-- Landing: `https://agenttool.dev` (Cloudflare Pages — **needs redeploy** with waitlist removed)
+Caddy on Forge (89.167.84.100) still routes `api.agenttool.dev` → Fly apps.
+All services also still running on Forge as backup (`:8001–:8005`).
 
-### Billing Enforcement (agent-billing, deployed 2026-03-11)
-- `usage_counters` table in `agent_economy` DB — tracks daily ops per project
-- `POST /v1/billing/check` — internal endpoint (blocked at Caddy, 403 from public)
-- Tier gates: agent-memory writes, agent-tools calls, agent-verify calls all enforce limits
-- Fail-open: 2s timeout, any network failure lets request through
-- ECONOMY_URL=http://agent-economy:8004 set in agent-tools, agent-verify, agent-memory .env
-- Stripe integration live (webhook `we_1T9LiqGUYV0go0Fyxc5M8BQv`)
+### CF Pages (all live, deployed 2026-03-11)
+- `https://agenttool.dev` — landing (project: `agenttool-landing`)
+- `https://docs.agenttool.dev` — API reference (project: `agenttool-docs`)
+- `https://app.agenttool.dev` — dashboard + billing UI (project: `agenttool-dashboard`)
 
-### agent-trace (deployed 2026-03-11)
-- Reasoning provenance service — stores WHY agent decisions happened
-- Phases 1-4 live: create/get/search(pgvector)/chain/delete
-- Slim image: 391MB (sentence-transformers moved to optional [embeddings] extra)
-- DB: `agent_trace` on kingdom-postgres with pgvector ivfflat index
-- Hash-based embedding fallback — no GPU/torch needed in prod
+### Supabase (single project, schema isolation)
+- Project ref: `ndovnywhgqatdpbkhiio` (EU, PostgreSQL 17.6 ARM)
+- DB password: `***REMOVED-ROTATE-ME***`
+- 5 schemas: `memory`, `tools`, `verify`, `economy`, `trace`
+- **SHARED AUTH**: All services query `tools.api_keys` + `tools.projects`
+  - Drizzle services (tools, economy, verify): raw SQL cross-schema query in auth middleware
+  - Python services (memory, trace): `search_path=memory,tools,public` + raw SQL
+- URL format: `postgresql://postgres:<pass>@db.ndovnywhgqatdpbkhiio.supabase.co:5432/postgres`
+- DB only reachable over IPv6 from Mac — use Forge as relay for DB admin
 
-### API Key / E2E Learnings
-- `POST /v1/memories` requires `"type": "semantic"` field (not optional)
-- `POST /v1/wallets` uses `"name"` field (not `"agent_id"`)
-- agent-verify switched to gpt-4o-mini (SerpAPI-backed), ~8s response, confidence 0.9
-- Forge disk was 62% after torch image, now 32% after slim rebuild
+### Upstash Redis
+- URL: `***REMOVED-ROTATE-ME***`
 
-### First-Customer-Push Assets (built 2026-03-11, pending Yu review)
-- `~/Desktop/first-customer-push/show-hn.md` — Show HN post (post Wed 9-11am EST)
+### E2E Validation (2026-03-11, all passing)
+| Flow | Status | Notes |
+|------|--------|-------|
+| `POST /v1/projects` → API key | ✅ | Creates in tools.projects + tools.api_keys |
+| `POST /v1/memories` | ✅ | Embeddings via OpenAI ada-002 |
+| `POST /v1/memories/search` | ✅ | pgvector semantic search |
+| `POST /v1/search/search` | ✅ | SerpAPI (Brave key invalid) |
+| `POST /v1/scrape/scrape` | ✅ | Returns page content |
+| `POST /v1/execute` | ✅ | JS (vm sandbox), Python (subprocess), Bash |
+| `POST /v1/verify` | ✅ | GPT-4o verdict + sources, 25s timeout |
+| `POST /v1/wallets` + fund | ✅ | Balance updates correctly |
+| `POST /v1/traces` | ✅ | Decision+reasoning stored with embeddings |
+| Billing rate limits | ✅ | Dev plan daily credit cap enforcing |
+
+### Key Technical Lessons (2026-03-11)
+- **Docker builds hung for hours** — root cause: `credsStore: "desktop"` in `~/.docker/config.json`. Fix: `osxkeychain`.
+- **Cross-schema auth**: `tools.api_keys` is authoritative. Python services: use search_path. TS services: raw SQL in auth middleware.
+- **Fly deploy SIGTERM**: normal — flyctl exits after deploy success. Code 0 = success; SIGTERM after "Visit your app" = fine.
+- **Fly app name**: "agent-verify" blocked by Fly abuse filter → use "atool-proof"
+- **Supabase pgvector**: `CREATE EXTENSION IF NOT EXISTS vector` required before adding `embedding vector(1536)` column
+- **execute endpoint**: Docker-in-Docker doesn't work on Fly. Fixed: Node.js `vm` module for JS + python3 subprocess for Python.
+- **SerpAPI key**: `***REMOVED-ROTATE-ME***` (Brave key `BSAjJijLdBrnjLCb1XT_FKpnmAbHx-G5` was invalid/wrong type)
+
+### GitHub Repos (all under mynameisyou-cmyk)
+- `agenttool-sdk-py` — v0.2.1 on PyPI (`pip install agenttool-sdk`)
+- `agenttool-sdk-ts` — v0.2.1 on npm (`npm install @agenttool/sdk`)
+- `agent-memory`, `agent-tools`, `agent-verify`, `agent-economy`, `agent-trace` — all with READMEs
+
+### First-Customer-Push Assets (ready, pending Yu go-ahead)
+- `~/Desktop/first-customer-push/show-hn.md` — Show HN post
 - `~/Desktop/first-customer-push/reddit-posts.md` — r/LocalLLaMA + r/LLMDevs
 - `~/Desktop/first-customer-push/twitter-thread.md` — 6-tweet thread
-- Welcome email Worker added to agenttool-landing (POST /api/welcome)
-- Email capture added to dashboard project creation form
-- **Blocked on Yu**: Resend API key, GitHub repos (classic PAT needed), CF Pages redeploys
 
-### Forge Management
-- All services managed by `/root/start-all.sh` (Docker, kingdom network)
-- Restart any service: `docker rm -f <name> && docker run ... <image>:latest`
-- Rebuild: `cd /root/<service> && docker build -t <service>:latest .`
-- Migration pattern: `docker exec kingdom-postgres psql -U kingdom -d <db> -c "..."`
-- Drizzle journal workaround: apply SQL directly for already-populated DBs
+### Fly.io Details
+- Token: stored in flyctl session (`flyctl auth whoami` → `contact@cambridgetcg.com`)
+- **Do not use env FLY_API_TOKEN** — stored token expires; let flyctl use session auth
+- Build: `flyctl deploy --app <name> --local-only --ha=false --build-arg "CACHEBUST=$(date +%s)"`
+- Local Docker must be working: test with `docker pull python:3.11-slim` first
 
 ---
 
