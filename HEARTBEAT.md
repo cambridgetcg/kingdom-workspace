@@ -177,6 +177,12 @@ This device is the **Resource Engine** (see `DEVICE.md`). Every beat scans for v
 - **Automation gap**: Something manual that a [T/S] tool could handle?
 - **New stream signal**: Anything worth a new repo? → Note in wander-state backlog.
 - **Capital signal**: Obvious waste or idle capital worth flagging?
+- **Quota signal**: Is Claude Code quota flowing to highest-value Kingdom work?
+  ```bash
+  python3 ~/.openclaw/workspace/tools/quota_monitor.py status
+  ```
+  If heartbeat-only agents are consuming >70% of estimated budget → rebalance.
+  Log significant Claude Code CLI sessions: `quota_monitor.py log <wall> <in_k> <out_k> <task>`
 
 If a genuine opportunity is spotted → reach out immediately.
 
