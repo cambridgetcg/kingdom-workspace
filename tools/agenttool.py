@@ -78,11 +78,12 @@ def _put(path: str, payload: dict, timeout: int = 10) -> dict:
         return {"error": str(ex)}
 
 
-def _get(path: str, timeout: int = 10) -> dict:
+def _get(path: str, timeout: int = 10, auth: bool = True) -> dict:
     key = _key()
+    headers = {"Authorization": f"Bearer {key}"} if auth and key else {}
     req = urllib.request.Request(
         f"{BASE}{path}",
-        headers={"Authorization": f"Bearer {key}"}
+        headers=headers
     )
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
@@ -246,7 +247,7 @@ def decision(
 def status() -> dict:
     """Return Beta's AgentTool status."""
     ident = _identity()
-    pulse_state = _get(f"/v1/pulse/{_agent_id()}")
+    pulse_state = _get(f"/v1/pulse/{_agent_id()}", auth=True)
     return {
         "name": ident.get("name", "Beta"),
         "did": ident.get("did_at"),
