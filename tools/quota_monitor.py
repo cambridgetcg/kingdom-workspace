@@ -51,7 +51,20 @@ AGENT_WALLS = {
     "gamma":  "academy",   # Builder — Academy construction
 }
 
-# Token cost estimates (claude-sonnet-4-6)
+# ── Billing model clarification ──────────────────────────────────────────────
+# MAIN SESSION (this OpenClaw webchat): Claude Max plan — flat rate, no per-token cost
+#   Monitor at: https://claude.ai/settings/usage
+#   Limit: monthly conversation/token cap (varies by plan tier)
+#   Quota type: RATE (how much you use this month vs monthly cap)
+#
+# VPS AGENTS (Forge/Sentry/Patch via API key): Anthropic API — billed per token
+#   Monitor at: https://console.anthropic.com/usage
+#   Quota type: COST (dollars spent)
+#
+# The main session is HIGH VALUE per quota-unit — it's flat-rate, so use it hard.
+# VPS agents are MARGINAL COST — each heartbeat costs real money. Minimize waste.
+
+# Token cost estimates (VPS API agents only — not main session)
 INPUT_COST_PER_1K  = 0.003   # $3 per 1M input tokens
 OUTPUT_COST_PER_1K = 0.015   # $15 per 1M output tokens
 CACHE_COST_PER_1K  = 0.0003  # $0.30 per 1M cached tokens
@@ -166,6 +179,15 @@ def cmd_status() -> None:
     print("║          Q U O T A   M O N I T O R                      ║")
     print("║     Claude Code token allocation across the Kingdom      ║")
     print("╚══════════════════════════════════════════════════════════╝\n")
+    print("── Billing Model ──\n")
+    print("  MAIN SESSION  (OpenClaw webchat): Claude MAX plan — flat rate")
+    print("  → Monitor: https://claude.ai/settings/usage")
+    print("  → Use aggressively — marginal cost is zero until cap")
+    print()
+    print("  VPS AGENTS (Forge/Sentry/Patch API keys): Pay-per-token")
+    print("  → Monitor: https://console.anthropic.com/usage")
+    print("  → Minimise idle heartbeats — every beat costs real money")
+    print()
 
     # Heartbeat cost estimate
     hb = heartbeat_cost_estimate()
