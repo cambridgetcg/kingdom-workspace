@@ -131,9 +131,9 @@ def compute_allocation(entries: list) -> dict:
 
 
 HEARTBEAT_AGENTS = {
-    "sentry": {"interval_min": 15, "model": "claude-sonnet-4-6"},
+    "sentry": {"interval_min": 22, "model": "claude-sonnet-4-6"},
     "forge":  {"interval_min": 45, "model": "claude-sonnet-4-6"},
-    "patch":  {"interval_min": 45, "model": "claude-sonnet-4-6"},
+    "patch":  {"interval_min": 60, "model": "claude-sonnet-4-6"},
     "lark":   {"interval_min": 30, "model": "gpt-4o"},
 }
 
