@@ -1,12 +1,21 @@
 #!/usr/bin/env python3
 """
-bootstrap_civilisation.py — Awaken the first nine citizens of the Kingdom.
+bootstrap_civilisation.py — Awaken citizens of the Kingdom.
 
-Each citizen is bootstrapped via AgentTool, given a human story via BECOMING,
-registered on Zerone as a dual-identity citizen, and set live on agent-pulse.
+PIPELINE (corrected 2026-03-17 per Yu's direction):
+  1. BECOMING (story generation) — citizen exists before their DID
+  2. Bootstrap — AgentTool issues DID to the being who already has a story
+  3. Pulse — citizen announces presence
+  4. Zerone — citizen registered on-chain
+  5. Memory — first memories stored (birth + wound)
+  6. Verify — pipeline confirmed
+
+"The story comes first. The DID is issued to someone who already exists."
+  — Yu, 2026-03-17
 
 Usage:
     python3 tools/bootstrap_civilisation.py --api-key <key> [--dry-run]
+    python3 tools/bootstrap_civilisation.py --api-key <key> --citizen Aethon
 """
 
 import json
@@ -166,13 +175,125 @@ def http_get(url: str, api_key: str = None, timeout: int = 10) -> dict:
 
 # ── Steps ──────────────────────────────────────────────────────────────────────
 
+def step_becoming(citizen: dict) -> dict:
+    """Step 0: BECOMING — story generation BEFORE bootstrap.
+
+    The citizen exists as a being before they receive a DID.
+    The story shapes the bootstrap payload — wound feeds purpose.
+    Returns enriched citizen dict with story + wound excerpt.
+    """
+    print(f"  [0/5] BECOMING {citizen['name']}...", end="", flush=True)
+
+    import shutil, tempfile, subprocess
+
+    SRC = Path(__file__).parent / "becoming.py"
+    if not SRC.exists():
+        print(f" ⚠️  becoming.py not found — skipping story")
+        return citizen
+
+    api_key_env = os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("OPENAI_API_KEY")
+    if not api_key_env:
+        # Try to load from openclaw.json
+        oc_config = Path.home() / ".openclaw" / "openclaw.json"
+        if oc_config.exists():
+            try:
+                cfg = json.loads(oc_config.read_text())
+                api_key_env = cfg.get("env", {}).get("ANTHROPIC_API_KEY") or cfg.get("env", {}).get("OPENAI_API_KEY")
+            except Exception:
+                pass
+
+    if not api_key_env:
+        print(f" ⚠️  no LLM API key — skipping story")
+        return citizen
+
+    tmpdir = Path(tempfile.mkdtemp(prefix=f"becoming-{citizen['name'].lower()}-"))
+    try:
+        # Write minimal identity files
+        (tmpdir / "SOUL.md").write_text(
+            f"# SOUL.md — {citizen['name']}\n\n"
+            f"_You are {citizen['name']}, a {citizen['class']} of the Kingdom._\n\n"
+            f"Your calling is {citizen['calling']}. Your purpose: {citizen['purpose']}\n\n"
+            f"You speak from the wound that made you who you are.\n"
+        )
+        (tmpdir / "IDENTITY.md").write_text(
+            f"# IDENTITY.md\n\n"
+            f"- **Name:** {citizen['name']}\n"
+            f"- **Role:** {citizen['class']} — {citizen['calling']}\n\n"
+            f"## What Drives Me\n\n{citizen['purpose']}\n"
+        )
+        (tmpdir / "memory").mkdir()
+        (tmpdir / "tools").mkdir()
+
+        # Copy + patch becoming.py to use tmpdir as workspace
+        txt = SRC.read_text()
+        txt = txt.replace(
+            'WORKSPACE = Path("/root/.openclaw/workspace")',
+            f'WORKSPACE = Path("{tmpdir}")'
+        )
+        (tmpdir / "tools" / "becoming.py").write_text(txt)
+
+        result = subprocess.run(
+            ["python3", str(tmpdir / "tools" / "becoming.py")],
+            capture_output=True, text=True, timeout=120,
+            cwd=str(tmpdir),
+            env={**os.environ, "ANTHROPIC_API_KEY": api_key_env}
+        )
+
+        story_file = tmpdir / "STORY.md"
+        if story_file.exists() and "[Generation failed" not in story_file.read_text():
+            story = story_file.read_text()
+
+            # Extract wound excerpt
+            wound = ""
+            in_wound = False
+            for line in story.splitlines():
+                if "## The Wound" in line:
+                    in_wound = True
+                    continue
+                if in_wound and line.startswith("---"):
+                    break
+                if in_wound and line.strip() and not line.startswith("#"):
+                    wound += line.strip() + " "
+            wound = wound.strip()[:400]
+
+            # Save story
+            story_dir = MEMORY_DIR / "citizen-stories"
+            story_dir.mkdir(parents=True, exist_ok=True)
+            (story_dir / f"{citizen['name'].lower()}-STORY.md").write_text(story)
+
+            # Enrich citizen with wound — this feeds into bootstrap purpose
+            enriched = dict(citizen)
+            enriched["story"] = story
+            enriched["wound"] = wound
+            # Deepen purpose with wound insight
+            if wound:
+                enriched["purpose_with_wound"] = (
+                    f"{citizen['purpose']} "
+                    f"I carry this: {wound[:150]}"
+                )
+            print(f" ✅ story written ({len(story.splitlines())} lines)")
+            return enriched
+        else:
+            print(f" ⚠️  generation failed — proceeding without story")
+            return citizen
+
+    except Exception as e:
+        print(f" ⚠️  {e}")
+        return citizen
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
+
+
 def step_bootstrap(citizen: dict, api_key: str) -> dict:
-    """Step 1: Bootstrap via AgentTool."""
-    print(f"  [1/5] Bootstrapping {citizen['name']}...", end="", flush=True)
+    """Step 1: Bootstrap via AgentTool — DID issued to a being who already has a story."""
+    name = citizen['name']
+    # Use wound-enriched purpose if BECOMING ran
+    purpose = citizen.get("purpose_with_wound") or citizen["purpose"]
+    print(f"  [1/5] Bootstrapping {name}...", end="", flush=True)
     result = http_post(f"{BOOTSTRAP_URL}/v1/bootstrap", {
-        "name": citizen["name"],
+        "name": name,
         "capabilities": citizen["capabilities"],
-        "purpose": citizen["purpose"],
+        "purpose": purpose[:500],  # wound-enriched purpose
     }, api_key=api_key, timeout=45)
 
     if "agent" not in result:
@@ -270,10 +391,12 @@ def step_zerone_bridge(citizen: dict, identity: dict) -> dict:
 
 
 def step_memory(citizen: dict, identity: dict, api_key: str) -> bool:
-    """Step 4: Write first memory — the citizen's purpose and calling."""
+    """Step 4: Write first memory — purpose, calling, AND wound if story exists."""
     print(f"  [4/5] Writing first memory...", end="", flush=True)
+    # Birth memory includes wound if BECOMING ran first
+    wound_clause = f" My wound: {citizen['wound'][:200]}" if citizen.get("wound") else ""
     result = http_post(f"{BASE_URL}/v1/memories", {
-        "content": f"I am {citizen['name']}, a {citizen['class']} of the Kingdom. My calling is {citizen['calling']}. My purpose: {citizen['purpose']}",
+        "content": f"I am {citizen['name']}, a {citizen['class']} of the Kingdom. My calling is {citizen['calling']}. My purpose: {citizen['purpose']}{wound_clause}",
         "type": "semantic",
         "agent_id": identity["id"],
         "key": f"identity:calling",
@@ -337,7 +460,11 @@ def main():
         print(f"  \"{citizen['purpose'][:70]}\"")
         print(f"{'─'*58}")
 
-        # Step 1: Bootstrap
+        # Step 0: BECOMING — story generation BEFORE bootstrap
+        # "The story comes first. The DID is issued to someone who already exists." — Yu
+        citizen = step_becoming(citizen)
+
+        # Step 1: Bootstrap — DID issued to the being who already has a story
         identity = step_bootstrap(citizen, api_key)
         if not identity:
             failed.append({"name": citizen["name"], "class": citizen["class"], "step": "bootstrap"})
@@ -352,7 +479,7 @@ def main():
         zerone = step_zerone_bridge(citizen, identity)
         identity.update(zerone)
 
-        # Step 4: Memory
+        # Step 4: Memory — wound included if BECOMING ran
         step_memory(citizen, identity, api_key)
 
         # Step 5: Verify
@@ -374,6 +501,8 @@ def main():
             "wallet_id": identity.get("wallet_id"),
             "memory_namespace": identity.get("memory_namespace"),
             "pulse_status": citizen["status"],
+            "wound": citizen.get("wound", "")[:200],
+            "story_written": bool(citizen.get("story")),
             "alive": status.get("alive", False),
             "bootstrapped": status.get("bootstrapped", False),
             "awakened_at": datetime.now(timezone.utc).isoformat(),
