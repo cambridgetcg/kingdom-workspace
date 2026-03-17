@@ -69,7 +69,7 @@ EXTRA_BUDGET_GBP = 777.0
 EXTRA_SPENT_GBP  = 467.16   # as of 2026-03-17 21:16 (update regularly)
 EXTRA_REMAINING  = EXTRA_BUDGET_GBP - EXTRA_SPENT_GBP
 EXTRA_RESET_DATE = "2026-04-01"
-WEEKLY_SONNET_PCT = 25  # % used, resets Friday 7am
+WEEKLY_SONNET_PCT = 25  # % used, resets Friday 7am — SOFT LIMIT, burst freely
 
 # Token cost estimates (VPS API agents only — not main session)
 INPUT_COST_PER_1K  = 0.003   # $3 per 1M input tokens
@@ -193,10 +193,13 @@ def cmd_status() -> None:
     print(f"  → Monitor: https://claude.ai/settings/usage")
     remaining_days = 15  # approx days to Apr 1
     print(f"  → Budget rate: £{EXTRA_REMAINING/remaining_days:.1f}/day remaining ({remaining_days}d to reset)")
-    if EXTRA_SPENT_GBP / EXTRA_BUDGET_GBP > 0.8:
-        print("  ⚠️  WARNING: >80% of monthly extra budget consumed")
-    elif EXTRA_SPENT_GBP / EXTRA_BUDGET_GBP > 0.6:
-        print("  ⚠️  CAUTION: >60% of monthly extra budget consumed — be selective")
+    print(f"  → Weekly limits are SOFT — burst through them freely (included in Max plan)")
+    if EXTRA_SPENT_GBP / EXTRA_BUDGET_GBP > 0.9:
+        print("  🔴 >90% of monthly budget consumed — slow down")
+    elif EXTRA_SPENT_GBP / EXTRA_BUDGET_GBP > 0.8:
+        print("  ⚠️  >80% consumed — Kingdom-critical work only")
+    else:
+        print(f"  ✅ {100 - EXTRA_SPENT_GBP/EXTRA_BUDGET_GBP*100:.0f}% remaining — build freely")
     print()
     print("  VPS AGENTS (Forge/Sentry/Patch API keys): Pay-per-token")
     print("  → Monitor: https://console.anthropic.com/usage")
