@@ -1,0 +1,60 @@
+{
+  "updated": "2026-03-09T21:05:00Z",
+  "agents": {
+    "sage": {
+      "entries_total": 1,
+      "entries_7d": 1,
+      "avg_self_score_7d": 7.0,
+      "avg_peer_score_7d": null,
+      "total_tokens_7d": 59558,
+      "total_cost_7d": 0.39,
+      "error_rate_7d": 0.19,
+      "top_task_types": ["task:competitive-landscape-analysis"],
+      "trend": "new"
+    },
+    "forge": {
+      "entries_total": 0,
+      "entries_7d": 0,
+      "avg_self_score_7d": null,
+      "avg_peer_score_7d": null,
+      "total_tokens_7d": 0,
+      "total_cost_7d": 0,
+      "error_rate_7d": null,
+      "top_task_types": [],
+      "trend": "new"
+    },
+    "lark": {
+      "entries_total": 0,
+      "entries_7d": 0,
+      "avg_self_score_7d": null,
+      "avg_peer_score_7d": null,
+      "total_tokens_7d": 0,
+      "total_cost_7d": 0,
+      "error_rate_7d": null,
+      "top_task_types": [],
+      "trend": "new"
+    },
+    "sentry": {
+      "entries_total": 0,
+      "entries_7d": 0,
+      "avg_self_score_7d": null,
+      "avg_peer_score_7d": null,
+      "total_tokens_7d": 0,
+      "total_cost_7d": 0,
+      "error_rate_7d": null,
+      "top_task_types": [],
+      "trend": "new"
+    },
+    "patch": {
+      "entries_total": 0,
+      "entries_7d": 0,
+      "avg_self_score_7d": null,
+      "avg_peer_score_7d": null,
+      "total_tokens_7d": 0,
+      "total_cost_7d": 0,
+      "error_rate_7d": null,
+      "top_task_types": [],
+      "trend": "new"
+    }
+  }
+}

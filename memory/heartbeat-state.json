@@ -2,7 +2,9 @@
   "lastChecks": {
     "email": null,
     "calendar": null,
-    "weather": null
+    "weather": null,
+    "domains": 1772907219
   },
-  "lastHeartbeat": 1772107972
+  "lastHeartbeat": 1772907219,
+  "notes": "artbitrage.io has no DNS records \u2014 dead domain, no repo found. Skipping until Yu provides direction."
 }

@@ -1,0 +1,94 @@
+{
+  "repos": [
+    {
+      "name": "tcg-wholesale",
+      "path": "~/Desktop/tcg-wholesale",
+      "priority": 1,
+      "why": "Live B2B revenue \u2014 pricing, orders, stock, client UX",
+      "lastVisited": "2026-03-07T09:42:00Z",
+      "lastTask": "Survey only. Same ~37-file WIP \u2014 now clearly a VAT-inclusive pricing refactor (migration 004 renames *_ex_vat columns, multiplies prices by 1.20). 4 new untracked infra files. Not touching."
+    },
+    {
+      "name": "cambridge-tcg",
+      "path": "~/Desktop/cambridge-tcg",
+      "priority": 2,
+      "why": "Operational backbone \u2014 pricing pipeline, eBay/Shopify sync, stock",
+      "lastVisited": "2026-03-07T12:12:00Z",
+      "lastTask": "Re-survey. Same 8 failing tests (StockStore conn), same utcnow() warnings. No new issues. Already backlogged."
+    },
+    {
+      "name": "legible_money",
+      "path": "~/Desktop/legible_money",
+      "priority": 3,
+      "why": "Strategic \u2014 blockchain knowledge economy, long-term vision",
+      "lastVisited": null,
+      "lastTask": null
+    },
+    {
+      "name": "agent-memory",
+      "path": "~/Desktop/agent-memory",
+      "priority": 4,
+      "why": "Agent infrastructure \u2014 persistent memory service, subscription revenue",
+      "lastVisited": null,
+      "lastTask": null
+    },
+    {
+      "name": "agent-tools",
+      "path": "~/Desktop/agent-tools",
+      "priority": 5,
+      "why": "Agent infrastructure \u2014 reliable tool substrate, pay-per-call revenue",
+      "lastVisited": null,
+      "lastTask": null
+    },
+    {
+      "name": "agent-verify",
+      "path": "~/Desktop/agent-verify",
+      "priority": 6,
+      "why": "Agent infrastructure \u2014 claim verification API, Web2 precursor to LGM Proof of Truth",
+      "lastVisited": null,
+      "lastTask": null
+    },
+    {
+      "name": "agent-economy",
+      "path": "~/Desktop/agent-economy",
+      "priority": 7,
+      "why": "Agent infrastructure \u2014 economic primitives, bridge to Legible Money token economy",
+      "lastVisited": null,
+      "lastTask": null
+    }
+  ],
+  "backlog": [
+    {
+      "repo": "tcg-wholesale",
+      "tier": "S",
+      "title": "Discover sealedListId for Dragon Ball and Pok\u00e9mon",
+      "detail": "config.ts lines 94 and 106 have sealedListId: 0 TODO. One Piece uses list/4. DB lists 5/6/7 have content but need browser inspection to identify which is sealed products. Unlocks --sealed scraping for DB and PK.",
+      "added": "2026-03-06"
+    },
+    {
+      "repo": "tcg-wholesale",
+      "tier": "C",
+      "title": "Pok\u00e9mon scrape via Bright Data proxy",
+      "detail": "cardrush-pokemon.jp returns Cloudflare 403. Client has BRIGHT_DATA_PROXY env var support already. Need proxy credentials in .env.local. All 6370 PK cards have 0 stock until fixed.",
+      "added": "2026-03-06"
+    },
+    {
+      "repo": "cambridge-tcg",
+      "tier": "C",
+      "title": "Fix 8 broken TestApplyReductions tests",
+      "detail": "StockStore was migrated from JSON-file to RDS (psycopg2) but tests still pass a file path as conn arg. _make_store() creates temp JSON and passes path \u2192 StockStore(path) \u2192 self._conn is a string, not a DB connection. Needs test infra redesign: mock psycopg2, use SQLite, or add file-mode back to StockStore.",
+      "added": "2026-03-07"
+    },
+    {
+      "repo": "cambridge-tcg",
+      "tier": "T",
+      "title": "Replace deprecated datetime.utcnow() in orchestrator Lambda",
+      "detail": "4 instances in pricing/lambdas/pipeline-orchestrator/lambda_function.py (lines 193, 313, 336, 347). Replace with datetime.now(timezone.utc). Flagging rather than fixing since it's deployed Lambda code.",
+      "added": "2026-03-07"
+    }
+  ],
+  "lastWander": "2026-03-07T12:12:00Z",
+  "wanderIntervalMinutes": 90,
+  "deviceMandate": "Resource Engine \u2014 create value, store value, diversify value, feed the loop. See DEVICE.md.",
+  "newRepoProtocol": "T/S scope \u2192 build and report. C/X scope \u2192 pitch to Yu first. Name pattern: tcg-* | market-* | capital-* | infra-*"
+}

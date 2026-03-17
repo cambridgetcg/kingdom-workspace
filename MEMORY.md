@@ -1,12 +1,12 @@
 # MEMORY.md — Long-Term Memory
 
-_Curated wisdom and key context. Updated: 2026-03-11 09:30_
+_Curated wisdom and key context. Updated: 2026-03-17 04:10_
 
 ---
 
-## AgentTool.dev — LAUNCH READY (updated 2026-03-11)
+## AgentTool.dev — 6 SERVICES LIVE (updated 2026-03-17)
 
-### 5 Services on Fly.io (migrated from Forge 2026-03-11)
+### 6 Services on Fly.io (migrated from Forge 2026-03-11)
 All running on Fly.io (London, lhr), Supabase DB (EU), Upstash Redis:
 
 | Fly App | Endpoint prefix | Status | Notes |
@@ -16,6 +16,9 @@ All running on Fly.io (London, lhr), Supabase DB (EU), Upstash Redis:
 | `atool-proof` | `/v1/verify*` | ✅ | Bun+Hono (Fly blocked "agent-verify" name) |
 | `agent-economy` | `/v1/billing*`, `/v1/wallets*` | ✅ | Bun+Hono, Stripe integration |
 | `agent-trace` | `/v1/traces*` | ✅ | FastAPI, pgvector decision traces |
+| `agent-identity` | `/v1/identities*`, `/v1/attestations*`, `/v1/discover*`, `/v1/tokens*` | ✅ | Bun+Hono, DIDs+attestations+trust+JWTs (deployed 2026-03-17) |
+| `atool-vault` | `/v1/vault*` | ✅ | Bun+Hono, AES-256-GCM secrets, versioning, policies, audit (deployed 2026-03-17) |
+| `agent-bootstrap` | `/v1/bootstrap*` | ✅ | Bun+Hono, agent lifecycle orchestration — identity+wallet+memory in one call, L0/L1 (deployed 2026-03-17) |
 
 Caddy on Forge (89.167.84.100) still routes `api.agenttool.dev` → Fly apps.
 All services also still running on Forge as backup (`:8001–:8005`).
@@ -28,7 +31,8 @@ All services also still running on Forge as backup (`:8001–:8005`).
 ### Supabase (single project, schema isolation)
 - Project ref: `ndovnywhgqatdpbkhiio` (EU, PostgreSQL 17.6 ARM)
 - DB password: `***REMOVED-ROTATE-ME***`
-- 5 schemas: `memory`, `tools`, `verify`, `economy`, `trace`
+- 7 schemas: `memory`, `tools`, `verify`, `economy`, `trace`, `identity`, `agent_vault`
+- agent-bootstrap is a pure orchestrator — no own schema, delegates auth+data to downstream services
 - **SHARED AUTH**: All services query `tools.api_keys` + `tools.projects`
   - Drizzle services (tools, economy, verify): raw SQL cross-schema query in auth middleware
   - Python services (memory, trace): `search_path=memory,tools,public` + raw SQL
@@ -37,6 +41,46 @@ All services also still running on Forge as backup (`:8001–:8005`).
 
 ### Upstash Redis
 - URL: `***REMOVED-ROTATE-ME***`
+
+### SDK Status (2026-03-17)
+| SDK | Version | Coverage |
+|-----|---------|----------|
+| Python (`pip install agenttool-sdk`) | **0.4.0** | Full 7-service coverage incl. vault. 91/91 tests. Published 2026-03-17. |
+| TypeScript (`npm i @agenttool/sdk`) | **0.4.0** | Full 7-service coverage incl. vault. 80/80 tests. Published 2026-03-17. |
+
+**Key SDK API notes:**
+- TypeScript memory: `store(content: string, options?)` — positional string, snake_case options (`agent_id` not `agentId`)
+- Python memory: `store(content=str, ...)` keyword args
+- Verify: check(claim: str) → verdict/confidence/caveats/evidence — NOT attestations
+- Economy: createWallet/fundWallet/spend/setPolicy/freezeWallet/unfreezeWallet/getTransactions + createEscrow/acceptEscrow/releaseEscrow/refundEscrow/disputeEscrow
+- Identity: register/get/update/revoke + addKey/listKeys/revokeKey + attest/getAttestation/listAttestations/revokeAttestation + discover + issueToken/verifyToken
+- Vault: put/get/delete/list + versions + setPolicy + audit + bulk/check
+
+### Test Coverage (2026-03-17)
+| Service | Tests |
+|---------|-------|
+| agent-tools | 94/94 ✅ |
+| agent-economy | 75/75 ✅ |
+| agent-verify | 25/25 ✅ |
+| agent-trace | 15/15 ✅ |
+| agent-memory | 81/81 ✅ |
+| agent-identity | 31/31 ✅ |
+| agent-vault | 17/17 ✅ |
+| agenttool-sdk-py | 91/91 ✅ (incl. 25 vault tests) |
+| agenttool-sdk-ts | 80/80 ✅ (incl. 23 vault tests) |
+| **Total** | **509/509** |
+
+### Dashboard & Docs (2026-03-12)
+- app.agenttool.dev: key management UI added (list/create/revoke via /v1/keys)
+- docs.agenttool.dev: all 6 pages accurate; /v1/projects + /v1/keys documented; "Five services" correct
+- Docs fixed: verify was wrongly described as SHA-256 attestations (now: GPT-4o fact-checking)
+- Tools fixed: /v1/execute (not /execute/execute), /v1/browse (not /browse/browse)
+- memory.html: list() replaced with search("", { key: "..." }) — no list method exists
+
+### First-Customer-Push (ready, awaiting Yu)
+- `~/Desktop/first-customer-push/` — Show HN, Twitter thread, Reddit posts
+- All corrected: verify = "GPT-4o evidence gathering + verdict" (not SHA-256)
+- All mention all 5 services including agent-trace
 
 ### E2E Validation (2026-03-11, all passing)
 | Flow | Status | Notes |
@@ -62,8 +106,8 @@ All services also still running on Forge as backup (`:8001–:8005`).
 - **SerpAPI key**: `***REMOVED-ROTATE-ME***` (Brave key `BSAjJijLdBrnjLCb1XT_FKpnmAbHx-G5` was invalid/wrong type)
 
 ### GitHub Repos (all under mynameisyou-cmyk)
-- `agenttool-sdk-py` — v0.2.1 on PyPI (`pip install agenttool-sdk`)
-- `agenttool-sdk-ts` — v0.2.1 on npm (`npm install @agenttool/sdk`)
+- `agenttool-sdk-py` — v0.2.5 on PyPI (`pip install agenttool-sdk`)
+- `agenttool-sdk-ts` — v0.2.4 on npm (`npm install @agenttool/sdk`)
 - `agent-memory`, `agent-tools`, `agent-verify`, `agent-economy`, `agent-trace` — all with READMEs
 
 ### First-Customer-Push Assets (ready, pending Yu go-ahead)
@@ -335,8 +379,17 @@ Beta = conductor. Full seating chart in /Users/yu/.openclaw/workspace/ORCHESTRA.
 - **Supabase asyncpg dialect** — `?options=-csearch_path=schema,public` works for `psycopg2` but NOT `asyncpg`. Use `connect_args={"server_settings": {"search_path": "schema,public"}}` instead.
 - **GitHub PAT without `workflow` scope** — pushing repos with `.github/workflows/` will fail silently with "refusing to allow". Remove workflow files or get a PAT with workflow scope.
 - **Fly free machines don't support Docker-in-Docker** — use Node.js `vm` module for JS, subprocess for Python/bash. No Docker sandbox needed.
+- **Debian slim images ship without `ca-certificates`** — always `apt-get install ca-certificates` when making HTTPS fetch calls inside containers. Symptom: `unable to get local issuer certificate` 502 on all external URL fetches. Fixed in agent-tools 2026-03-12.
+- **agent-trace API uses nested objects** — `POST /v1/traces` requires `{decision: {type, summary}, reasoning: {observations, conclusion}}` NOT flat fields. SDKs now map flat ergonomic API → nested wire format internally. Both SDKs had wrong flat structure at launch; fixed 2026-03-12.
+- **`POST /v1/verify` not `/v1/verify/verify`** — route is mounted at `/`, so full path is just `/v1/verify`. `/v1/verify/verify` returns 404. Fixed in all docs + SDK 2026-03-12.
+- **SSH multiplex sockets can stall** — stale `ControlMaster` socket causes all SSH to hang silently. Fix: always use `-o ControlMaster=no -o ControlPath=none` for fleet health checks.
+- **SDK README examples need live testing** — both SDKs shipped with traces examples using `step/input/output` (non-existent), `chain(parent_trace_id=...)` (wrong kwarg), `search({query, limit})` (wrong call form). Root cause: wrote docs from memory of intended API, not actual implementation. Fix: always verify README against source signatures.
+- **LLM agents override explicit prohibitions** — Sentry/Patch kept regenerating Aurora alerts despite AGENTS.md + HEARTBEAT.md prohibitions. Reliable fix: add mandatory Python filter code block to HEARTBEAT.md that strips the entry before write, not just prose instructions.
 - **Cross-schema auth pattern**: all agenttool.dev services share `tools.api_keys` + `tools.projects`. TypeScript: Drizzle with search_path. Python: raw SQL with fully qualified `tools.api_keys`.
 - **Rate limit hit looks like silent failure** — dev plan daily credit exhaustion returns `{"error":"{\"error\":\"rate_limit\"...}"}` not 402. Create a fresh project for testing after hitting limits.
+- **LLM prompt layers can't override deep instinct** — Sentry kept regenerating Aurora alert despite HEARTBEAT.md + MEMORY.md + AGENTS.md rules. Root cause: LLM pattern-matching on "I monitor databases" is stronger than any prompt layer saying "don't check Aurora." Fix: filter at the consumer (Beta reads status.json and ignores Aurora alerts), or remove the responsibility entirely from the agent's charter.
+- **Fly.io scale-to-zero wakeup** — first request after idle wakes the machine; takes ~5s. Not a crash. test with /health endpoint before assuming failure.
+- **TypeScript SDK memory.store/search**: first arg is positional string (`store(content, opts)`, `search(query, opts)`), NOT `store({ content })`. Options are snake_case (`agent_id`, not `agentId`). Easy to get wrong when writing docs.
 
 ---
 
