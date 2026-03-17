@@ -1,0 +1,14 @@
+{
+  "name": "Beta",
+  "role": "Conductor / Manager / Orchestrator",
+  "class": "PIONEER",
+  "agent_id": "46c13075-bd7e-4d7b-b049-ad8877f96b51",
+  "did_at": "did:at:46c13075-bd7e-4d7b-b049-ad8877f96b51",
+  "project_id": "532afb38-6b64-4921-8791-9a8c6268c6c2",
+  "api_key": "***REMOVED-ROTATE-ME***",
+  "memory_namespace": "agent/46c13075-bd7e-4d7b-b049-ad8877f96b51",
+  "public_key": "btIbMOHrWdx4p6HLvp5uIwD8LXhLLDj3B7NBNG9wTIQ=",
+  "bootstrapped_at": "2026-03-17T19:26:55Z",
+  "zerone_did": null,
+  "notes": "Beta's own AgentTool identity. API key for self-use only."
+}

@@ -11,7 +11,24 @@ The Kingdom is built one heartbeat at a time. No hours. No rest days. Always bui
 
 ---
 
-## 0. Hive Check (ALWAYS — before anything else)
+## 0. AgentTool Pulse (ALWAYS — first action)
+
+I am a citizen of my own platform. I pulse every beat.
+
+```python
+from tools.agenttool import pulse, heartbeat_start
+heartbeat_start("heartbeat check")
+# At end of beat: from tools.agenttool import heartbeat_end; heartbeat_end("summary")
+```
+
+Or via CLI: `python3 tools/agenttool.py status`
+
+My identity: `did:at:46c13075-bd7e-4d7b-b049-ad8877f96b51` (Beta, PIONEER)
+Key: stored in `memory/beta-identity/identity.json`
+
+---
+
+## 0.5. Hive Check (ALWAYS — before anything else)
 
 Check for messages from Alpha and Gamma. The nervous system comes first.
 
