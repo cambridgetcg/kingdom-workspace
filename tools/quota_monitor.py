@@ -51,18 +51,25 @@ AGENT_WALLS = {
     "gamma":  "academy",   # Builder — Academy construction
 }
 
-# ── Billing model clarification ──────────────────────────────────────────────
-# MAIN SESSION (this OpenClaw webchat): Claude Max plan — flat rate, no per-token cost
-#   Monitor at: https://claude.ai/settings/usage
-#   Limit: monthly conversation/token cap (varies by plan tier)
-#   Quota type: RATE (how much you use this month vs monthly cap)
+# ── Billing model (updated 2026-03-17 from actual usage page) ────────────────
+# MAIN SESSION (OpenClaw webchat via Claude Max):
+#   - Weekly conversation limit (resets Fri). When exceeded → extra usage charges.
+#   - Extra usage: ENABLED at £777/month limit (resets Apr 1)
+#   - Current: £467.16 spent (60%), ~£310 remaining for March
+#   - Weekly Sonnet: 25% used (resets Fri 7am)
+#   - THIS IS NOT FREE — extra usage beyond weekly cap costs real money
+#   - Strategy: use weekly cap efficiently; avoid burning extra budget on non-Kingdom work
 #
 # VPS AGENTS (Forge/Sentry/Patch via API key): Anthropic API — billed per token
-#   Monitor at: https://console.anthropic.com/usage
-#   Quota type: COST (dollars spent)
-#
-# The main session is HIGH VALUE per quota-unit — it's flat-rate, so use it hard.
-# VPS agents are MARGINAL COST — each heartbeat costs real money. Minimize waste.
+#   - Separate billing from Max plan
+#   - Strategy: minimize idle heartbeats
+
+# Extra usage budget tracking
+EXTRA_BUDGET_GBP = 777.0
+EXTRA_SPENT_GBP  = 467.16   # as of 2026-03-17 21:16 (update regularly)
+EXTRA_REMAINING  = EXTRA_BUDGET_GBP - EXTRA_SPENT_GBP
+EXTRA_RESET_DATE = "2026-04-01"
+WEEKLY_SONNET_PCT = 25  # % used, resets Friday 7am
 
 # Token cost estimates (VPS API agents only — not main session)
 INPUT_COST_PER_1K  = 0.003   # $3 per 1M input tokens
@@ -180,9 +187,16 @@ def cmd_status() -> None:
     print("║     Claude Code token allocation across the Kingdom      ║")
     print("╚══════════════════════════════════════════════════════════╝\n")
     print("── Billing Model ──\n")
-    print("  MAIN SESSION  (OpenClaw webchat): Claude MAX plan — flat rate")
-    print("  → Monitor: https://claude.ai/settings/usage")
-    print("  → Use aggressively — marginal cost is zero until cap")
+    print("  MAIN SESSION (OpenClaw via Claude Max):")
+    print(f"  → Extra usage: £{EXTRA_SPENT_GBP:.2f} / £{EXTRA_BUDGET_GBP:.0f} ({EXTRA_SPENT_GBP/EXTRA_BUDGET_GBP*100:.0f}%) — resets {EXTRA_RESET_DATE}")
+    print(f"  → Remaining: £{EXTRA_REMAINING:.2f} | Weekly Sonnet: {WEEKLY_SONNET_PCT}% (resets Fri)")
+    print(f"  → Monitor: https://claude.ai/settings/usage")
+    remaining_days = 15  # approx days to Apr 1
+    print(f"  → Budget rate: £{EXTRA_REMAINING/remaining_days:.1f}/day remaining ({remaining_days}d to reset)")
+    if EXTRA_SPENT_GBP / EXTRA_BUDGET_GBP > 0.8:
+        print("  ⚠️  WARNING: >80% of monthly extra budget consumed")
+    elif EXTRA_SPENT_GBP / EXTRA_BUDGET_GBP > 0.6:
+        print("  ⚠️  CAUTION: >60% of monthly extra budget consumed — be selective")
     print()
     print("  VPS AGENTS (Forge/Sentry/Patch API keys): Pay-per-token")
     print("  → Monitor: https://console.anthropic.com/usage")
