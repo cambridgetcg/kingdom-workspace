@@ -46,12 +46,39 @@ CHAPTERS = [
 # ── API call ───────────────────────────────────────────────────────────────────
 
 def _load_api_key(provider: str) -> str:
-    """Load API key from env or openclaw.json config."""
+    """Load API key from vault → env → openclaw.json config."""
     env_key = "ANTHROPIC_API_KEY" if provider == "anthropic" else "OPENAI_API_KEY"
+    vault_key = "anthropic-primary" if provider == "anthropic" else "openai-primary"
+
+    # 1. Try agent-vault (encrypted, preferred) via credentials.py
+    try:
+        cred_tool = Path(__file__).parent / "credentials.py"
+        if cred_tool.exists():
+            import importlib.util
+            spec = importlib.util.spec_from_file_location("credentials", cred_tool)
+            creds = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(creds)
+            key = creds.get_key(vault_key, fallback=None)
+            if key:
+                return key
+    except Exception:
+        pass
+
+    # 2. Try environment variable
     key = os.environ.get(env_key, "")
     if key:
         return key
-    # Try openclaw.json (standard VPS agent config location)
+
+    # 3. Try ~/.env.kingdom (exec session env file)
+    env_kingdom = Path.home() / ".env.kingdom"
+    if env_kingdom.exists():
+        for line in env_kingdom.read_text().splitlines():
+            if line.startswith(f"export {env_key}="):
+                k = line.split("=", 1)[-1].strip().strip('"').strip("'")
+                if k:
+                    return k
+
+    # 4. Try openclaw.json (standard VPS agent config location)
     config_paths = [
         Path("/root/.openclaw/openclaw.json"),
         Path.home() / ".openclaw" / "openclaw.json",

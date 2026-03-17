@@ -3,6 +3,10 @@
   "activePhase": "idle",
   "lastBuilt": "2026-03-17T15:58:00Z",
   "lastVerified": "2026-03-17T15:58:00Z",
-  "queue": ["agenttool-landing-9services", "rewardspro", "cambridge-tcg"],
-  "notes": "9 services live: agent-pulse deployed (H21). First AgentTool agent on Zerone at block 1090. Next: update landing page to show 9 services, then secondary queue."
+  "queue": [
+    "oracle-ww3-fusion",
+    "rewardspro-ts-triage",
+    "cambridge-tcg-tests"
+  ],
+  "notes": "Oracle cron fixed. Foundation secured. Alpha designed Oracle\u00d7ww3 bridge (DORMANT) \u2014 next [C] build. RewardsPro TS triage [S]. Cambridge TCG StockStore tests [S]."
 }

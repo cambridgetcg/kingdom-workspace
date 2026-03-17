@@ -29,6 +29,10 @@ import time
 import base64
 import hashlib
 import argparse
+import warnings
+
+# Suppress asyncio SSL eof_received noise (harmless, very chatty)
+warnings.filterwarnings("ignore", message=".*eof_received.*")
 from pathlib import Path
 
 import ssl
@@ -849,4 +853,16 @@ def main():
 
 
 if __name__ == "__main__":
+    import io, contextlib
+    # Suppress asyncio SSL transport noise ("returning true from eof_received")
+    # This is harmless — asyncio's SSL transport logs it on every clean close
+    class _StderrFilter(io.TextIOWrapper):
+        def write(self, s):
+            if "eof_received" not in s:
+                return super().write(s)
+            return len(s)
+    try:
+        sys.stderr = _StderrFilter(sys.stderr.buffer, errors="replace")
+    except Exception:
+        pass
     main()
