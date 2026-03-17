@@ -78,6 +78,15 @@ Poll the RewardsPro AI employees. SSH in, read their status.json, relay alerts t
 - If undelivered signals exist: send via Telegram, mark delivered
 - Check `~/Desktop/prediction-markets/data/signals.jsonl` tail
 
+## 4.5. Oracle Health Check (every beat)
+```python
+import json; from pathlib import Path; from datetime import datetime, timezone
+s = json.loads((Path.home()/"Desktop/prediction-markets/data/oracle-status.json").read_text())
+age_h = (datetime.now(timezone.utc) - datetime.fromisoformat(s["last_run"].replace("Z","+00:00"))).total_seconds() / 3600
+if age_h > 2: print(f"⚠️  Oracle stale: {age_h:.1f}h since last run (cron may be broken)")
+```
+- If stale >2h: run `cd ~/Desktop/prediction-markets && /opt/homebrew/bin/python3 scripts/oracle-run.py`
+
 ---
 
 ## 5. Development Engine (every beat, 24/7)
