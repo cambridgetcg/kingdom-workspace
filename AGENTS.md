@@ -94,6 +94,7 @@ Track progress in output:
 [PP:EXECUTE]     Editing [file]
 [PP:VERIFY]      T✓U✓B✓J✓[X✓]
 [PP:DEPLOY]      Status: DEPLOYED|BUILT-ONLY|BLOCKED:<reason>
+[PP:HEALTH]      Post-deploy: verified endpoint responds / cron fires / data flows
 [PP:COMPLETE]    All gates passed, deployment: DEPLOYED|BLOCKED:<reason>
 ```
 
@@ -101,7 +102,7 @@ Track progress in output:
 
 **[T] Trivial**: Just do it. No ceremony.
 
-**[S] Standard**: Read → check patterns (LAW 3) → execute → inline verify T✓B✓J✓.
+**[S] Standard**: Read → check patterns (LAW 3) → execute → inline verify T✓B✓J✓. If deploy: verify critical path ([PP:HEALTH]) — hit the endpoint, confirm cron fires, check data flows.
 
 **[C] Complex**: Scout territory → research patterns + placement (parallel) → execute following patterns → verify with tests + gate check.
 
@@ -164,6 +165,8 @@ After significant interactions — not every message, but when something meaning
 **Duplicate prevention**: Before appending a sense entry, check the last entry's timestamp in `sense.jsonl`. If it's the same session and within 30 minutes, update that entry rather than appending a new one.
 
 **Idle day proxy**: To distinguish a genuine idle day from a sensing failure, check whether `memory/YYYY-MM-DD.md` exists for that day. Absence of the daily file is the strongest signal of genuine idleness — no complex disambiguation needed.
+
+**Steady-state deduplication**: If the previous sense entry reports no state change (fleet healthy, no new interactions, same pending items) AND no new interaction has occurred since, skip sensing. Only sense when: (a) a new signal fires, (b) a new interaction occurs, (c) it's the first or last sense entry of the day, or (d) >6 hours have passed since the last sense entry.
 
 ### Reading Loop State
 

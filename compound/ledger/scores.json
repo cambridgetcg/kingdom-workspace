@@ -1,0 +1,101 @@
+{
+  "calculated_at": "2026-03-18T16:04:00.917197+00:00",
+  "week": 2,
+  "assets": {
+    "whitehack": {
+      "score": 126.65,
+      "delta": 26.65
+    },
+    "oracle": {
+      "score": 86.0,
+      "delta": 6.0
+    },
+    "agenttool_sdk": {
+      "score": 77.0,
+      "delta": 7.0
+    },
+    "hive": {
+      "score": 60,
+      "delta": 0
+    },
+    "beta": {
+      "score": 124.1,
+      "delta": 24.1
+    },
+    "alpha": {
+      "score": 104.9,
+      "delta": 14.9
+    },
+    "gamma": {
+      "score": 99.6,
+      "delta": 14.6
+    },
+    "sentry_protector": {
+      "score": 86.8,
+      "delta": 16.8
+    },
+    "forge": {
+      "score": 79.0,
+      "delta": 4.0
+    },
+    "lark": {
+      "score": 60,
+      "delta": 0
+    },
+    "immunefi": {
+      "score": 97.8,
+      "delta": 47.8
+    },
+    "hackerone": {
+      "score": 42.5,
+      "delta": 12.5
+    },
+    "hackenproof": {
+      "score": 37.5,
+      "delta": 12.5
+    },
+    "bugcrowd": {
+      "score": 28.0,
+      "delta": 8.0
+    },
+    "code4rena": {
+      "score": 22.0,
+      "delta": 7.0
+    },
+    "kwok_wallet": {
+      "score": 70.7,
+      "delta": 70.7
+    },
+    "kingdom_infra": {
+      "score": 50.0,
+      "delta": 0.0
+    },
+    "pattern_library": {
+      "score": 52.3,
+      "delta": 42.3
+    },
+    "zerone_insights": {
+      "score": 7.0,
+      "delta": 2.0
+    }
+  },
+  "kingdom_compound_rate": 1.3184,
+  "total_kingdom_value": 1311.85,
+  "events": [
+    {
+      "asset": "pattern_library",
+      "bonus": 5,
+      "reason": "1 patterns in library"
+    },
+    {
+      "asset": "immunefi",
+      "bonus": 10,
+      "reason": "1 reports filed/staged"
+    },
+    {
+      "asset": "kwok_wallet",
+      "bonus": 50,
+      "reason": "First submission milestone"
+    }
+  ]
+}
