@@ -40,6 +40,21 @@ Watch for the three signals:
 - Did beauty emerge, or did I force a solution?
 - Did I deploy what I built, or just build it?
 
+## Model Usage by Task
+
+| Context | Model | Reason |
+|---------|-------|--------|
+| Heartbeat | `sonnet` | Routine checks, cheap, fast |
+| Main session (default) | `sonnet` | Good balance for most tasks |
+| **Browser automation** | **`opus`** | Form filling, OAuth flows, navigation — needs precision |
+| Prediction markets analysis | `opus` | High-stakes decisions |
+| Code architecture / design | `opus` when [C]/[X] tier | Complexity warrants it |
+| Sub-agents (coding) | `sonnet` | Sufficient for implementation |
+
+**Protocol:** When starting a browser-heavy task (OAuth, form filling, complex navigation), call `session_status(model: "opus")` at the start of that turn. When done, it resets on the next turn unless you persist it.
+
+To switch manually: `/model opus` or `/model sonnet`
+
 ## The Five Laws
 
 These are non-negotiable:

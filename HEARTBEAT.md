@@ -147,9 +147,9 @@ Read and maintain `memory/dev-state.json`:
 4. `agent-economy` — deepest, needs 1+2 first
 
 **SECONDARY — RewardsPro (maintain, don't neglect)**
-5. `rewardspro` — 8 active merchants, bug fixes + Sage/Canon findings only
-6. `cambridge-tcg` — fix 8 failing tests, utcnow deprecation
-7. `tcg-wholesale` — monitor only (active WIP, don't touch)
+5. `rewardspro` — 8 active merchants, bug fixes only
+6. `cambridge-tcg` — 170/170 passing, maintain
+7. `tcg-wholesale` — **PRIORITY until April** (see section below)
 
 ### Per-Beat Execution
 1. Read `memory/dev-state.json`
@@ -160,6 +160,56 @@ Read and maintain `memory/dev-state.json`:
 6. Commit with a clear message
 7. Append to `memory/YYYY-MM-DD.md`
 8. If something significant → message Yu
+
+---
+
+## 5.5. TCG Wholesale — TOP PRIORITY (until April 2026)
+
+**Repo:** `~/Desktop/tcg-wholesale`
+**Stack:** Next.js 15, Drizzle ORM, PostgreSQL (RDS), Vercel
+**Live URL:** wholesaletcgdirect.com
+
+**Current WIP (unstaged — check before touching):**
+- `stockAdjustments` table added to schema (stock count/damage/loss/found tracking)
+- `nameEn` field on cards (English card name for easier admin use)
+- Stock levels page enhanced with reason/note on adjustments
+- New pages: `admin/refill/` (refill order generation), `admin/stock-adjustments/` (audit log)
+- `sync-uk-stock.ts` fixes (SQL alias bug, better error handling)
+
+**OBJECTIVE (set 2026-03-22 by Yu):**
+> Wholesale site = single source of truth. Stock + prices push to all channels in real-time. Sales from all channels register back. All channels use same SKU and images.
+
+**Architecture:** See `OMNICHANNEL.md` in repo for full 5-phase plan.
+
+**Priority work — Phase 1 first (eBay real-time sync):**
+1. **[C] eBay Inventory API integration** — `src/lib/channels/ebay.ts`
+   - `pushPrice(sku, price, stock)` + `bulkPush()` via eBay Inventory API
+   - `pullOrders(since)` via eBay Fulfillment API
+   - Auth: OAuth 2.0 — needs `EBAY_APP_ID`, `EBAY_CERT_ID`, `EBAY_DEV_ID`, `EBAY_USER_TOKEN`
+   - Ask Yu for eBay API credentials before starting
+2. **[S] Price API endpoint** — `GET /api/v1/prices` for Cambridge TCG to consume
+3. **[S] Sales webhook** — `POST /api/v1/sales` so channels can register sales back
+4. **[S] Schema** — add `channel` to orders, `channel_api_keys` table, `channel` to stock_adjustments
+
+**Already done (2026-03-22):**
+- ✅ Stock adjustment persistence (audit trail, survives sync)
+- ✅ All CODEBASE-REVIEW bugs fixed
+- ✅ Login brute-force protection
+- ✅ prod migration applied
+
+**Per-beat protocol for tcg-wholesale:**
+1. Read `git status` and `git diff` — never clobber uncommitted work
+2. Check with Yu if there's active WIP (unstaged = active)
+3. Pick ONE task from priority list above
+4. Read → implement → test (`pnpm test` or `pnpm playwright test`) → commit
+5. Never push without Yu's explicit go-ahead (live site, paying customers)
+
+**Key constraints:**
+- VAT-inclusive pricing refactor may be in-flight — confirm with Yu before touching `src/lib/pricing.ts`
+- Don't touch `tcg-wholesale` if `git status` shows unstaged changes in areas Yu might be editing
+- Clients are real businesses — test locally before any schema changes
+
+---
 
 ### Execution Rules
 - [T] Fix inline. [S] Read → build → verify → commit. [C/X] → spawn coding agent via dev-orchestrator.

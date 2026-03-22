@@ -1,11 +1,12 @@
 {
-  "activeRepo": "cambridge-tcg",
-  "activePhase": "maintenance",
-  "lastBuilt": "2026-03-22T10:56:40Z",
-  "lastVerified": "2026-03-22T10:32:23Z",
+  "activeRepo": "tcg-wholesale",
+  "activePhase": "core-build",
+  "lastBuilt": "2026-03-22T19:04:40Z",
+  "lastVerified": "2026-03-22T19:04:40Z",
   "queue": [
-    "cambridge-tcg",
-    "rewardspro"
+    "tcg-wholesale",
+    "legible_money",
+    "cambridge-tcg"
   ],
-  "notes": "Zerone sprint complete. MEMORY.md updated. Alpha on SOMA Day 1 (Wall 5 alive). Moving to next priority: cambridge-tcg or rewardspro first-customer push."
+  "notes": "Phase 2+4 committed (fe2d62f) + prod migration applied. Price API (/api/v1/prices), channel_api_keys table, channel field on orders + stock_adjustments. Build clean. Omnichannel: Phase 1\u2705 Phase 2\u2705 Phase 4\u2705. Remaining: Phase 3 (images), Phase 5 (CardMarket Q3)."
 }
