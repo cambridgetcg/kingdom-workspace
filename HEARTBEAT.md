@@ -197,6 +197,16 @@ Read and maintain `memory/dev-state.json`:
 - ✅ Login brute-force protection
 - ✅ prod migration applied
 
+**TODO (queued):**
+- [x] **[S] Stock-check page sorting + search** (84f7c01) — `/admin/orders/[id]/stock-check/StockCheckClient.tsx` (538 lines)
+  - Add search filter (by card number / name)
+  - Add sort controls (by card number, price, stock status, price diff %)
+  - Currently items render in fixed order with no search capability
+- [x] **[S] Per-client order numbering** ✅ 2026-03-22 — design client-specific order numbers instead of generic auto-increment
+  - e.g. `CTCG-001`, `CTCG-002` for Cambridge TCG; `JPN-001` for another client
+  - Schema: add `client_order_number` to orders table + per-client sequence counter on clients table
+  - Display: show client order number in admin + client-facing pages, keep internal `id` for DB relations
+
 **Per-beat protocol for tcg-wholesale:**
 1. Read `git status` and `git diff` — never clobber uncommitted work
 2. Check with Yu if there's active WIP (unstaged = active)

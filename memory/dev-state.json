@@ -1,12 +1,12 @@
 {
-  "activeRepo": "tcg-wholesale",
-  "activePhase": "core-build",
-  "lastBuilt": "2026-03-22T19:04:40Z",
-  "lastVerified": "2026-03-22T19:04:40Z",
+  "activeRepo": "legible_money",
+  "activePhase": "integration",
+  "lastBuilt": "2026-03-22T21:03:52Z",
+  "lastVerified": "2026-03-22T20:44:22Z",
   "queue": [
-    "tcg-wholesale",
     "legible_money",
-    "cambridge-tcg"
+    "cambridge-tcg",
+    "tcg-wholesale"
   ],
-  "notes": "Phase 2+4 committed (fe2d62f) + prod migration applied. Price API (/api/v1/prices), channel_api_keys table, channel field on orders + stock_adjustments. Build clean. Omnichannel: Phase 1\u2705 Phase 2\u2705 Phase 4\u2705. Remaining: Phase 3 (images), Phase 5 (CardMarket Q3)."
+  "notes": "TCG wholesale complete for tonight. Omnichannel phases 1+2+4 done, price API live, eBay client built. Moving to Zerone: x/home + x/bvm are 100% \u2014 next target is devnet smoke test or oracle\u2192Zerone integration."
 }
