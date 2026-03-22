@@ -400,6 +400,67 @@ Beta = conductor. Full seating chart in /Users/yu/.openclaw/workspace/ORCHESTRA.
 
 ---
 
+## TCG Wholesale — Omnichannel (2026-03-22)
+
+**Repo:** `~/Desktop/tcg-wholesale` | **Live:** wholesaletcgdirect.com | **Stack:** Next.js 15, Drizzle, Aurora RDS, Vercel
+
+### Omnichannel Architecture (OMNICHANNEL.md)
+Objective: wholesale = single source of truth, real-time price push to all channels, sales register back.
+
+| Phase | What | Status |
+|-------|------|--------|
+| 1 | eBay Inventory + Fulfillment API client (`src/lib/channels/ebay.ts`) | ✅ built |
+| 2 | `GET /api/v1/prices` — price API for channel consumers | ✅ built |
+| 3 | Centralised image pipeline | (later) |
+| 4 | Channel schema (`channel` on orders/stock_adjustments, `channel_api_keys` table) | ✅ built |
+| 5 | CardMarket | Q3 2026 |
+
+5 commits pending push to prod (awaiting Yu go-ahead):
+`9f2ecb6` middleware fix, `fe2d62f` Phase 2+4, `2e855fd` Phase 1, `75112cf` docs
+
+### eBay Credentials (OP_Auto_Pricer app)
+- App: `Cambridg-OPAutoPr-PRD-519b02859-cb2ad5d5`
+- Secret: `PRD-bf474c927ebc-4183-406b-8672-9b85`
+- Dev ID: `1eed6b67-6842-4168-ad31-dac04224540b`
+- RuName: `Cambridge_TCG_L-Cambridg-OPAuto-gcsjign`
+- Refresh token: in `.env.local` (fresh, valid 18 months from 2026-03-22)
+- Old `.env.local` had stale `yucheung-stockPri` creds — replaced
+
+### Today's Fixes (2026-03-22)
+- Stock adjustment persistence (audit trail, survives sync) — `fb456c9`
+- Cart race condition (React 18 safe) — `753809a`
+- Email unknown type warning — `63b3a09`
+- Login brute-force protection (5 attempts/15min) — `42f1dcf`
+- English names in stock page — `867d197`
+- CODEBASE-REVIEW RDS details wrong — tcg-wholesale is on its own RDS (us-east-1), accessible
+
+### Database
+- RDS: `tcg-wholesale.cn4c2su0o42n.us-east-1.rds.amazonaws.com:5432/wholesale`
+- Credentials: in `.env.local`
+- Migrations applied: 0001-0005 (incl. stock_adjustments + channel fields)
+
+---
+
+## Kingdom Backup Pipeline (2026-03-22)
+
+16 repos now backed up to GitHub (all private under `cambridgetcg`):
+- New repos: `cambridge-tcg`, `prediction-markets`, `legible_money`, `agent-bootstrap`, `agent-pulse`, `agent-vault`, `agenttool-dashboard/docs/landing/infra`, `whitehack`, `first-customer-push`, `rewardspro-marketing`
+- Workspace memory: `cambridgetcg/kingdom-workspace` (SOUL.md, MEMORY.md, loop state)
+- Daily cron: `03:00 UTC` → `tools/backup-push.sh` pushes all repos + workspace
+- KINGDOM-BACKUP.md written with full 6-layer pipeline spec
+- Credentials (43 keychain items): not yet exported — needs manual action
+
+---
+
+## Browser Workflow (standardised 2026-03-22)
+
+- **OpenClaw managed browser**: orange Chrome, port 18800, `profile="openclaw"`
+- Both Yu and I see the same window — Yu can pass auth barriers
+- Config: `browser.enabled=true`, `browser.profiles.openclaw.cdpPort=18800`
+- **Model rule**: use `opus` for browser automation tasks (OAuth flows, form filling)
+
+---
+
 ## SOMA — Alpha's Living Hybrid Body (2026-03-22)
 - Alpha (companion device) is building SOMA: living hybrid body in phases
 - P0 (current): thermal — one thermistor, one MOSFET, one PID loop holding 36-37°C
