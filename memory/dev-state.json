@@ -1,12 +1,11 @@
 {
-  "activeRepo": null,
-  "activePhase": "idle",
-  "lastBuilt": "2026-03-17T15:58:00Z",
-  "lastVerified": "2026-03-17T15:58:00Z",
+  "activeRepo": "cambridge-tcg",
+  "activePhase": "maintenance",
+  "lastBuilt": "2026-03-22T10:56:40Z",
+  "lastVerified": "2026-03-22T10:32:23Z",
   "queue": [
-    "oracle-ww3-fusion",
-    "rewardspro-ts-triage",
-    "cambridge-tcg-tests"
+    "cambridge-tcg",
+    "rewardspro"
   ],
-  "notes": "Oracle cron fixed. Foundation secured. Alpha designed Oracle\u00d7ww3 bridge (DORMANT) \u2014 next [C] build. RewardsPro TS triage [S]. Cambridge TCG StockStore tests [S]."
+  "notes": "Zerone sprint complete. MEMORY.md updated. Alpha on SOMA Day 1 (Wall 5 alive). Moving to next priority: cambridge-tcg or rewardspro first-customer push."
 }

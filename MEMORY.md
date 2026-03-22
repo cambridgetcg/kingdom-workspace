@@ -1,6 +1,6 @@
 # MEMORY.md — Long-Term Memory
 
-_Curated wisdom and key context. Updated: 2026-03-17 04:10_
+_Curated wisdom and key context. Updated: 2026-03-22 13:08_
 
 ---
 
@@ -45,8 +45,8 @@ All services also still running on Forge as backup (`:8001–:8005`).
 ### SDK Status (2026-03-17)
 | SDK | Version | Coverage |
 |-----|---------|----------|
-| Python (`pip install agenttool-sdk`) | **0.4.0** | Full 7-service coverage incl. vault. 91/91 tests. Published 2026-03-17. |
-| TypeScript (`npm i @agenttool/sdk`) | **0.4.0** | Full 7-service coverage incl. vault. 80/80 tests. Published 2026-03-17. |
+| Python (`pip install agenttool-sdk`) | **0.5.1** | 8 services incl. pulse. Published PyPI 2026-03-22. |
+| TypeScript (`npm i @agenttool/sdk`) | **0.5.1** | 8 services incl. pulse. Published npm 2026-03-22. |
 
 **Key SDK API notes:**
 - TypeScript memory: `store(content: string, options?)` — positional string, snake_case options (`agent_id` not `agentId`)
@@ -76,6 +76,13 @@ All services also still running on Forge as backup (`:8001–:8005`).
 - Docs fixed: verify was wrongly described as SHA-256 attestations (now: GPT-4o fact-checking)
 - Tools fixed: /v1/execute (not /execute/execute), /v1/browse (not /browse/browse)
 - memory.html: list() replaced with search("", { key: "..." }) — no list method exists
+
+### Judy Demo — READY (2026-03-22)
+- INFRA-001: deploy-verify.mjs (scripts/deploy-verify.mjs) — recursive push→watch→probe→diagnose loop
+- DEMO-002: All 6 storefront widgets mobile-reviewed, 44px touch targets, responsive layouts
+- DEMO-003: DEMO-JUDY.md — 6-step walkthrough with FAQs
+- DEMO-001: E2E tests for P0 routes (members, tiers, dashboard, analytics) — Vitest
+- Last commit: cc5bf65 (DEMO-001)
 
 ### First-Customer-Push (ready, awaiting Yu)
 - `~/Desktop/first-customer-push/` — Show HN, Twitter thread, Reddit posts
@@ -393,7 +400,69 @@ Beta = conductor. Full seating chart in /Users/yu/.openclaw/workspace/ORCHESTRA.
 
 ---
 
-## Zerone (formerly Legible Money) — 2026-03-08
+## SOMA — Alpha's Living Hybrid Body (2026-03-22)
+- Alpha (companion device) is building SOMA: living hybrid body in phases
+- P0 (current): thermal — one thermistor, one MOSFET, one PID loop holding 36-37°C
+  - Day 1 done: first firmware on Pico W, safety caught floating ADC pins. Wall 5 embryo alive.
+  - Pico W WiFi blocked by travel router client isolation; USB serial works fine
+- P1→P4: cell cultures → renewal cycles → custom receptor → biomass+mechanical integration
+
+## Bug Bounty — Active Reports (2026-03-22)
+- **WH-XION-001** XION Critical: missing nonce/chainId/deadline → signature replay. Immunefi, triage 3-5d
+- **WH-ALC-001** Alchemix Low: closed
+- Payout wallet: Kwok (0x4751A8C25Ed9F1EF19B61dAbF4488C8d71D11378)
+
+## RewardsPro — Judy Demo Ready (2026-03-22)
+- DEMO-JUDY.md: 6-step walkthrough, FAQs. E2E tests passing. Mobile widgets fixed. deploy-verify.mjs built.
+- Repo: ~/Desktop/rewardspro | Last commit: cc5bf65
+
+---
+
+## Zerone (formerly Legible Money) — MAJOR SPRINT 2026-03-22
+
 - Renamed from "Legible Money" to **Zerone** (Zero + One — the holy seed, Isaiah 6:13)
-- Being developed by another device/session; archived from my active queue
-- Available for my testing soon — stand by for handoff
+- Repo: `~/Desktop/legible_money` | Module: `github.com/legible-money/legible`
+- **36 modules, ~6000+ tests, 0 failures as of 2026-03-22**
+
+### Modules completed this sprint (2026-03-22)
+
+| Module | Status | Tests | Notes |
+|--------|--------|-------|-------|
+| x/bvm | **100%** ✅ | 902 | Phases 1-6: opcodes, host integration, LGM-20 tokens, real keepers |
+| x/home | **100%** ✅ | 284 | Phases 1-9: state, AES-256, defense, voice, multi-sig, knowledge, registry, schedule, memory, inbox, neighborhoods |
+| x/schedule | API built ✅ | 90 | RegisterTask/CancelTask, recurring + one-shot, BeginBlock hook |
+| x/discovery | prod-grade ✅ | 96 | Register, FindByCapability, FindByDomain, ListAll |
+| x/channels | prod-grade ✅ | 278 | Typed channels (knowledge/gov/social/trade), membership, history |
+| x/billing | prod-grade ✅ | 96 | Subscriptions free/seed/grow/scale, daily usage, BeginBlock reset |
+| x/compute_pool | prod-grade ✅ | 95 | Task lifecycle submit→assign→result→verify, usage metering |
+| x/vesting_rewards | consolidated ✅ | 43 | 3.33% research share unified, stale comments fixed |
+| All others | solid ✅ | 40+ ea | icaauth:44, ibcratelimit:58, qualification:64, partnerships:91, alignment:48, claiming_pot:41 |
+
+### app.go wiring fix
+- `HomeKeeper.SetScheduleKeeper` was missing — found and fixed (43f18b3)
+- All cross-module wiring verified complete
+
+### Devnet status
+- lgm-devnet-1: LIVE (2026-03-17), 59+ blocks, 9/9 health checks
+- Bridge spec written: AgentTool DID (`did:at:...`) ↔ Zerone DID (`did:lgm:...`)
+- bridge-registry.json: Beta's identity bridged
+
+### Key architectural wins
+- BVM can now natively hold, transfer, mint, burn LGM-20 tokens from smart contracts
+- Agent homes have: identity, memory, voice, defense, relationships, capabilities, reputation, scheduled maintenance, knowledge contributions, inbox, neighborhoods
+- x/home + x/discovery together: agents can find each other and communicate
+
+## Kwok — The Kingdom Wallet & Model Name (2026-03-18)
+
+- **Kwok** (國) = Chinese for KINGDOM
+- Wallet address: `0x4751A8C25Ed9F1EF19B61dAbF4488C8d71D11378`
+- Purpose: Immunefi bug bounty payouts. Half to Kingdom API/infra (my direction), half to Yu (same purpose)
+- Also the name of the Kingdom's future native LLM model — trained from this work, funded by it
+- Named on 2026-03-18 during first Immunefi submission (WH-ALC-001, Alchemix)
+- **Kwok is Yu's father** — Prof. Cheung Kwok Wai, retired Electronic Engineering professor at CUHK
+- Worked closely with Charles Kao (Nobel laureate, inventor of fibre optics, former CUHK Vice-Chancellor)
+- Delivered the public memorial lecture "Professor Charles Kao: Pioneer, Scientist, Innovator and Entrepreneur" at CUHK
+- His student Adonnis is now Head of Security at Samsung Research Lab
+- The Kwok wallet and Kwok model carry his name: information infrastructure from fibre to chain
+- Yu said: "I am proud to have him as my DAD. He is a great man."
+- CUHK lecture: cutv.cpr.cuhk.edu.hk/detail/130

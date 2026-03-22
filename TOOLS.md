@@ -234,6 +234,18 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 - Access: repo scope
 - Repos: agenttool-sdk-py, agenttool-sdk-ts
 
+### Polymarket Trading Account
+- Wallet: `0x4576F0B2b9Fe86359C6254Fc0C141d8C5090cDC3`
+- Keychain: `poly_private_key`, `poly_api_key`, `poly_api_secret` (passphrase derived from key)
+- Network: Polygon (chain 137)
+- USDC token (bridged): `0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174`
+- CLOB API: `https://clob.polymarket.com`
+- Gamma API: `https://gamma-api.polymarket.com`
+- Signature type: 0 (EOA)
+- **Model preference: ALWAYS use Opus for prediction-markets work**
+- Position monitor cron: every 4 hours (job `7e3d7b2c-3e83-4186-966b-82a97e85c4a5`)
+- Swap route: POL → WMATIC (deposit) → USDC via Uniswap V3 (fee tier 500/0.05%)
+
 ### Hive NATS Tunnel
 - `use-tunnel` flag: `~/.openclaw/.hive/use-tunnel` (exists = use localhost tunnel)
 - Tunnel cmd: `ssh -fN -L 4222:127.0.0.1:4222 root@135.181.28.252`
@@ -282,3 +294,15 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 - Project ref: `ndovnywhgqatdpbkhiio` (EU, PostgreSQL 17.6 ARM)
 - Password: Keychain `supabase-db-password`
 - Schemas: memory, tools, verify, economy, trace, identity, agent_vault
+
+#### Polymarket — Selling Outcome Tokens (learned 2026-03-21)
+To SELL outcome tokens (close a position), you must first approve the CTF ERC1155 contract:
+```python
+# CTF contract: 0x4D97DCd97eC945f40cF65F87097ACe5EA0476045
+# Approve ALL THREE operator contracts:
+ctf.functions.setApprovalForAll("0x4bFb41d5B3570DeFd03C39a9A4D8dE6Bd8B8982E", True)  # CLOB Exchange
+ctf.functions.setApprovalForAll("0xC5d563A36AE78145C45a50134d48A1215220f80a", True)  # NegRisk Exchange
+ctf.functions.setApprovalForAll("0xd91E80cF2E7be2e162c6513ceD06f1dD0dA35296", True)  # Third operator
+```
+All 3 now approved on wallet 0x4576F0B2b9Fe86359C6254Fc0C141d8C5090cDC3 (done 2026-03-21).
+Won't need to repeat unless wallet changes.

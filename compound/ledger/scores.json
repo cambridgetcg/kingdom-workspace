@@ -1,96 +1,96 @@
 {
-  "calculated_at": "2026-03-18T16:04:00.917197+00:00",
-  "week": 2,
+  "calculated_at": "2026-03-22T10:08:26.199315+00:00",
+  "week": 5,
   "assets": {
     "whitehack": {
-      "score": 126.65,
-      "delta": 26.65
+      "score": 251.6,
+      "delta": 52.62
     },
     "oracle": {
-      "score": 86.0,
-      "delta": 6.0
+      "score": 115.25,
+      "delta": 12.36
     },
     "agenttool_sdk": {
-      "score": 77.0,
-      "delta": 7.0
+      "score": 111.13,
+      "delta": 14.42
     },
     "hive": {
       "score": 60,
       "delta": 0
     },
     "beta": {
-      "score": 124.1,
-      "delta": 24.1
+      "score": 278.18,
+      "delta": 72.2
     },
     "alpha": {
-      "score": 104.9,
-      "delta": 14.9
+      "score": 223.33,
+      "delta": 57.99
     },
     "gamma": {
-      "score": 99.6,
-      "delta": 14.6
+      "score": 207.12,
+      "delta": 52.02
     },
     "sentry_protector": {
-      "score": 86.8,
-      "delta": 16.8
+      "score": 228.32,
+      "delta": 69.53
     },
     "forge": {
-      "score": 79.0,
-      "delta": 4.0
+      "score": 102.89,
+      "delta": 13.06
     },
     "lark": {
       "score": 60,
       "delta": 0
     },
     "immunefi": {
-      "score": 97.8,
-      "delta": 47.8
+      "score": 444.36,
+      "delta": 154.19
     },
     "hackerone": {
-      "score": 42.5,
-      "delta": 12.5
+      "score": 119.31,
+      "delta": 35.11
     },
     "hackenproof": {
-      "score": 37.5,
-      "delta": 12.5
+      "score": 114.31,
+      "delta": 35.11
     },
     "bugcrowd": {
-      "score": 28.0,
-      "delta": 8.0
+      "score": 67.0,
+      "delta": 16.48
     },
     "code4rena": {
-      "score": 22.0,
-      "delta": 7.0
+      "score": 56.13,
+      "delta": 14.42
     },
     "kwok_wallet": {
-      "score": 70.7,
-      "delta": 70.7
+      "score": 400.7,
+      "delta": 138.56
     },
     "kingdom_infra": {
-      "score": 50.0,
-      "delta": 0.0
+      "score": 294.26,
+      "delta": 131.07
     },
     "pattern_library": {
-      "score": 52.3,
-      "delta": 42.3
+      "score": 315.17,
+      "delta": 115.96
     },
     "zerone_insights": {
-      "score": 7.0,
-      "delta": 2.0
+      "score": 79.75,
+      "delta": 39.84
     }
   },
-  "kingdom_compound_rate": 1.3184,
-  "total_kingdom_value": 1311.85,
+  "kingdom_compound_rate": 1.4093,
+  "total_kingdom_value": 3528.79,
   "events": [
     {
       "asset": "pattern_library",
-      "bonus": 5,
-      "reason": "1 patterns in library"
+      "bonus": 40,
+      "reason": "8 patterns in library"
     },
     {
       "asset": "immunefi",
-      "bonus": 10,
-      "reason": "1 reports filed/staged"
+      "bonus": 80,
+      "reason": "8 reports filed/staged"
     },
     {
       "asset": "kwok_wallet",
