@@ -267,8 +267,16 @@ if __name__ == "__main__":
         s = status()
         print(json.dumps(s, indent=2))
     elif cmd == "pulse":
-        st = sys.argv[2] if len(sys.argv) > 2 else "idle"
-        ok = pulse(st)
+        # pulse [status] [description...] — status must be idle|thinking|learning|error
+        args = sys.argv[2:]
+        valid_statuses = {"idle", "thinking", "learning", "error"}
+        if args and args[0] in valid_statuses:
+            st = args[0]
+            thought = " ".join(args[1:]) if len(args) > 1 else None
+        else:
+            st = "idle"
+            thought = " ".join(args) if args else None
+        ok = pulse(st, last_thought=thought)
         print(f"pulse: {'ok' if ok else 'failed'}")
     elif cmd == "search":
         q = " ".join(sys.argv[2:]) if len(sys.argv) > 2 else "kingdom"
