@@ -1,12 +1,12 @@
 {
   "activeRepo": "legible_money",
   "activePhase": "devnet-testing",
-  "lastBuilt": "2026-03-23T04:47:00Z",
-  "lastVerified": "2026-03-23T04:47:00Z",
+  "lastBuilt": "2026-03-23T04:58:00Z",
+  "lastVerified": "2026-03-23T04:58:00Z",
   "queue": [
     "legible_money",
     "cambridge-tcg",
     "tcg-wholesale"
   ],
-  "notes": "Full adversarial PoT pipeline validated (2026-03-23). Knowledge claim → provisional fact → challenge → UPHELD (confidence boost 700k→810k). ProvisionalChallenge query support added. Next: wait for challenge window expiry (block 292471) to test provisional→verified transition, OR advance to oracle→Zerone bridge integration."
+  "notes": "Oracle→Zerone bridge working (2026-03-23 04:58). Fixed: protocol_observation not in isValidEpistemicCategory (gap between evaluation engine and submission validator). Bridge-agent registered as validator (2 of 2). Oracle market signal (inflation <5% June) submitted as provisional fact (score 700k). Next: build oracle-bridge script that auto-submits oracle signals to Zerone, or advance challenge window expiry test."
 }
