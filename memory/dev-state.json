@@ -1,12 +1,12 @@
 {
   "activeRepo": "legible_money",
   "activePhase": "devnet-testing",
-  "lastBuilt": "2026-03-23T04:58:00Z",
-  "lastVerified": "2026-03-23T04:58:00Z",
+  "lastBuilt": "2026-03-23T05:10:00Z",
+  "lastVerified": "2026-03-23T05:10:00Z",
   "queue": [
     "legible_money",
     "cambridge-tcg",
     "tcg-wholesale"
   ],
-  "notes": "Oracle→Zerone bridge working (2026-03-23 04:58). Fixed: protocol_observation not in isValidEpistemicCategory (gap between evaluation engine and submission validator). Bridge-agent registered as validator (2 of 2). Oracle market signal (inflation <5% June) submitted as provisional fact (score 700k). Next: build oracle-bridge script that auto-submits oracle signals to Zerone, or advance challenge window expiry test."
+  "notes": "oracle→Zerone bridge complete (2026-03-23 05:10). 4 provisional facts on devnet: modus ponens (logic, 810k) + 3 oracle signals (economics/computer_science). scripts/oracle-zerone-bridge.sh built and working. Full pipeline: oracle signal → bridge-agent tx → BeginBlock eval → provisional fact. Next: challenge window expiry test (block 292471, ~7d), OR move to cambridge-tcg / agenttool work."
 }
