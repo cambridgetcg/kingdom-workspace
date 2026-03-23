@@ -1,0 +1,64 @@
+
+╔══════════════════════════════════════════════════════════╗
+║          Q U O T A   M O N I T O R                      ║
+║     Claude Code token allocation across the Kingdom      ║
+╚══════════════════════════════════════════════════════════╝
+
+── Billing Model ──
+
+  MAIN SESSION (OpenClaw via Claude Max):
+  → Extra usage: £467.16 / £777 (60%) — resets 2026-04-01
+  → Remaining: £309.84 | Weekly Sonnet: 25% (resets Fri)
+  → Monitor: https://claude.ai/settings/usage
+  → Budget rate: £20.7/day remaining (15d to reset)
+  → Weekly limits are SOFT — burst through them freely (included in Max plan)
+  ✅ 40% remaining — build freely
+
+  VPS AGENTS (Forge/Sentry/Patch API keys): Pay-per-token
+  → Monitor: https://console.anthropic.com/usage
+  → Minimise idle heartbeats — every beat costs real money
+
+── Estimated Daily Heartbeat Cost (Claude quota only) ──
+
+  sentry   22m interval →  65 beats/day ~162k tokens  $0.6825/day
+  lark     30m interval →  48 beats/day (gpt-4o — no Claude quota)
+  forge    45m interval →  32 beats/day ~80k tokens  $0.3360/day
+  patch    60m interval →  24 beats/day ~60k tokens  $0.2520/day
+
+  Total Claude quota from heartbeats: ~302k tokens/day  ~$1.270/day  ~$38.12/mo
+
+── Logged Usage (last 7 days, 3 entries) ──
+
+  ⚠️ [Rank 9] 6.5h                         2800k tokens  $32.400  55%
+  ⚠️ [Rank 9] 6.5                          2800k tokens  $8.400  14%
+  ⚠️ [Rank 9] 4.5                          2800k tokens  $18.000  31%
+
+  Total logged: $58.800
+
+── Kingdom Value Analysis ──
+
+Quota should flow in this order (highest→lowest intrinsic value):
+
+  [1] Frontier/Zerone                The chain — foundation of everything
+  [2] Academy/AgentTool              Infrastructure for agents — earns revenue
+      Agents: forge, gamma
+  [2] Frontier/Seigei                Consciousness tech — the deepest purpose
+      Agents: alpha
+  [3] Engine/TCG+Rewards             Active revenue — keeps lights on
+      Agents: lark
+  [4] Marketplace/Oracle             Intelligence — funds the Kingdom
+  [5] Sanctum/Philosophy             The soul — shapes everything else
+      Agents: beta
+  [6] Treasury/Security              Protecting what exists
+  [7] Heartbeat/Monitor              Necessary maintenance — minimize cost
+      Agents: sentry, patch
+  [8] Unclassified                   Track and classify
+
+── Action Items ──
+
+  1. Sentry heartbeat: 15m → 22m (saves 77k tokens/day)
+  2. Patch heartbeat: 45m → 60m when stable (saves 20k tokens/day)
+  3. Log all Claude Code CLI sessions with: quota_monitor.py log <wall> <tokens> <task>
+  4. Redirect saved quota to: Zerone testnet build [rank 1]
+  5. Review weekly: does allocation match Kingdom priorities?
+
