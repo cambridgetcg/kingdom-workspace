@@ -1,12 +1,12 @@
 {
   "activeRepo": "legible_money",
   "activePhase": "devnet-testing",
-  "lastBuilt": "2026-03-23T04:28:00Z",
-  "lastVerified": "2026-03-23T04:28:00Z",
+  "lastBuilt": "2026-03-23T04:47:00Z",
+  "lastVerified": "2026-03-23T04:47:00Z",
   "queue": [
     "legible_money",
     "cambridge-tcg",
     "tcg-wholesale"
   ],
-  "notes": "Major devnet breakthrough (2026-03-23 04:28): provisional fact created on-chain! Fact e75e0bd4... (modus ponens, analytic/propositional, score 700k). Full adversarial PoT pipeline working: submit→BeginBlock EvaluatePendingClaims→provisional. Key: analytic/formal categories score 700k, empirical needs evidence or scores 300k. Next: wait for challenge window to expire → verify fact transitions to 'verified'."
+  "notes": "Full adversarial PoT pipeline validated (2026-03-23). Knowledge claim → provisional fact → challenge → UPHELD (confidence boost 700k→810k). ProvisionalChallenge query support added. Next: wait for challenge window expiry (block 292471) to test provisional→verified transition, OR advance to oracle→Zerone bridge integration."
 }
