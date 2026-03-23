@@ -1,5 +1,6 @@
 #!/bin/bash
-# Kingdom daily backup push — runs at 03:00 UTC
+# Kingdom daily backup push
+cd /tmp  # ensure consistent starting directory — runs at 03:00 UTC
 # Pushes all repos with remotes, syncs workspace memory
 
 LOG="$HOME/.openclaw/workspace/memory/backup-log.txt"
@@ -11,7 +12,7 @@ REPOS=(
   "$HOME/Desktop/cambridge-tcg"
   "$HOME/Desktop/prediction-markets"
   "$HOME/Desktop/agenttool-sdk-py"
-  "$HOME/Desktop/agenttool-sdk-ts"
+  # "$HOME/Desktop/agenttool-sdk-ts" — handled separately (clean-main branch) # note: uses clean-main branch
   "$HOME/Desktop/agent-bootstrap"
   "$HOME/Desktop/agent-pulse"
   "$HOME/Desktop/agent-vault"
@@ -27,7 +28,10 @@ for dir in "${REPOS[@]}"; do
   name=$(basename "$dir")
   if [ -d "$dir/.git" ]; then
     cd "$dir"
-    result=$(git push origin main 2>&1)
+    # Use current branch if not on main
+    branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)
+    push_cmd="git push origin ${branch}:main"
+    result=$($push_cmd 2>&1)
     if echo "$result" | grep -q "error\|fatal"; then
       echo "  FAIL: $name — $result" >> "$LOG"
       FAILED=$((FAILED+1))
