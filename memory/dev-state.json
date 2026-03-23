@@ -1,12 +1,12 @@
 {
   "activeRepo": "legible_money",
-  "activePhase": "integration",
-  "lastBuilt": "2026-03-22T21:03:52Z",
-  "lastVerified": "2026-03-22T20:44:22Z",
+  "activePhase": "devnet-testing",
+  "lastBuilt": "2026-03-23T04:15:00Z",
+  "lastVerified": "2026-03-23T04:15:00Z",
   "queue": [
     "legible_money",
     "cambridge-tcg",
     "tcg-wholesale"
   ],
-  "notes": "TCG wholesale complete for tonight. Omnichannel phases 1+2+4 done, price API live, eBay client built. Moving to Zerone: x/home + x/bvm are 100% \u2014 next target is devnet smoke test or oracle\u2192Zerone integration."
+  "notes": "Devnet E2E tests complete (2026-03-23): knowledge claim submit ✅ + validator registration ✅. Key findings: positional args use plain numbers not denom strings, custom x/staking is separate from Cosmos staking. Single-validator PoT rounds complete without quorum (4-block window too tight). Next: auto-verifier script or multi-validator setup for full PoT fact creation."
 }
