@@ -1,8 +1,8 @@
 {
-  "activeRepo": "legible_money",
-  "activePhase": "devnet-complete",
-  "lastBuilt": "2026-03-23T06:01:00Z",
-  "lastVerified": "2026-03-23T06:01:00Z",
-  "queue": ["legible_money", "cambridge-tcg", "tcg-wholesale"],
-  "notes": "10 modules validated today on Zerone devnet (2026-03-23). DEVNET-STATE.md is the reference doc. Milestone complete. Next: pivot to agenttool SDK (pulse was broken, now fixed), or cambridge-tcg maintenance. Consider messaging Yu about the morning's work."
+  "activeRepo": "agenttool-sdk-ts",
+  "activePhase": "feature-parity",
+  "lastBuilt": "2026-03-23T06:04:00Z",
+  "lastVerified": "2026-03-23T06:04:00Z",
+  "queue": ["agenttool-sdk-ts", "legible_money", "cambridge-tcg"],
+  "notes": "Pivoted from Zerone (10 modules validated) to TS SDK parity. Python SDK is 0.5.1 with pulse/identity/vault/bootstrap. TS SDK is 0.2.0, missing those 4 modules. pulse.ts written. Next: port identity.ts + vault.ts + bootstrap.ts, then bump version and publish."
 }
