@@ -1,8 +1,8 @@
 {
-  "activeRepo": "agenttool-sdk-ts",
-  "activePhase": "published",
-  "lastBuilt": "2026-03-23T06:28:00Z",
-  "lastVerified": "2026-03-23T06:28:00Z",
-  "queue": ["agenttool-sdk-ts", "legible_money", "cambridge-tcg"],
-  "notes": "0.5.2 tests passing 29/29. Smoke tests added for new modules. Docs updated. Morning complete. Next opportunity: quota_monitor check, or let everything settle and await Yu."
+  "activeRepo": "legible_money",
+  "activePhase": "cli-docs",
+  "lastBuilt": "2026-03-23T06:44:00Z",
+  "lastVerified": "2026-03-23T06:44:00Z",
+  "queue": ["legible_money", "agenttool-sdk-ts", "cambridge-tcg"],
+  "notes": "CLI help text improved (7 commands). cand-005 partially addressed. Build clean. Morning complete — 10 Zerone modules, SDK 0.5.2, CLI docs patch. Good stopping point before Yu wakes."
 }
