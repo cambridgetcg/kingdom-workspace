@@ -1,8 +1,8 @@
 {
   "activeRepo": "legible_money",
-  "activePhase": "cli-docs",
-  "lastBuilt": "2026-03-23T06:44:00Z",
-  "lastVerified": "2026-03-23T06:44:00Z",
+  "activePhase": "oracle-hardening",
+  "lastBuilt": "2026-03-23T11:30:00Z",
+  "lastVerified": "2026-03-23T11:30:00Z",
   "queue": ["legible_money", "agenttool-sdk-ts", "cambridge-tcg"],
-  "notes": "CLI help text improved (7 commands). cand-005 partially addressed. Build clean. Morning complete — 10 Zerone modules, SDK 0.5.2, CLI docs patch. Good stopping point before Yu wakes."
+  "notes": "x/oracle hardened (V1 entropy floor, V2 resolver separation, 9/9 tests). Alpha shipped 4 deliverables. Gamma JOINMIND. Proto generated via buf. Lark social posting code-fixed (IPv4 force), model-stuck on stale alert. Devnet fresh at block ~1500 with oracle wired."
 }
