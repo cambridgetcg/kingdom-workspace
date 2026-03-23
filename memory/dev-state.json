@@ -1,12 +1,12 @@
 {
   "activeRepo": "legible_money",
   "activePhase": "devnet-testing",
-  "lastBuilt": "2026-03-23T04:15:00Z",
-  "lastVerified": "2026-03-23T04:15:00Z",
+  "lastBuilt": "2026-03-23T04:28:00Z",
+  "lastVerified": "2026-03-23T04:28:00Z",
   "queue": [
     "legible_money",
     "cambridge-tcg",
     "tcg-wholesale"
   ],
-  "notes": "Devnet E2E tests complete (2026-03-23): knowledge claim submit ✅ + validator registration ✅. Key findings: positional args use plain numbers not denom strings, custom x/staking is separate from Cosmos staking. Single-validator PoT rounds complete without quorum (4-block window too tight). Next: auto-verifier script or multi-validator setup for full PoT fact creation."
+  "notes": "Major devnet breakthrough (2026-03-23 04:28): provisional fact created on-chain! Fact e75e0bd4... (modus ponens, analytic/propositional, score 700k). Full adversarial PoT pipeline working: submit→BeginBlock EvaluatePendingClaims→provisional. Key: analytic/formal categories score 700k, empirical needs evidence or scores 300k. Next: wait for challenge window to expire → verify fact transitions to 'verified'."
 }
