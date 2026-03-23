@@ -13,3 +13,26 @@
   FAIL: agenttool-landing — fatal: Unable to read current working directory: Operation not permitted
   FAIL: agenttool-infra — fatal: Unable to read current working directory: Operation not permitted
   FAIL: whitehack — fatal: Unable to read current working directory: Operation not permitted
+fatal: could not read Username for 'https://github.com': Device not configured
+2026-03-23T03:00:02Z — backup-push done (failures: 14)
+2026-03-23T03:01:57Z — backup-push starting
+  OK: legible_money
+  OK: rewardspro
+  OK: cambridge-tcg
+  OK: prediction-markets
+  OK: agenttool-sdk-py
+  FAIL: agenttool-sdk-ts — To https://github.com/mynameisyou-cmyk/agenttool-sdk-ts.git
+ ! [rejected]        main -> main (non-fast-forward)
+error: failed to push some refs to 'https://github.com/mynameisyou-cmyk/agenttool-sdk-ts.git'
+hint: Updates were rejected because a pushed branch tip is behind its remote
+hint: counterpart. If you want to integrate the remote changes, use 'git pull'
+hint: before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+  OK: agent-bootstrap
+  OK: agent-pulse
+  OK: agent-vault
+  OK: agenttool-dashboard
+  OK: agenttool-docs
+  OK: agenttool-landing
+  OK: agenttool-infra
+  OK: whitehack
