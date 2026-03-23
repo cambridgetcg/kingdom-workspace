@@ -46,7 +46,7 @@ All services also still running on Forge as backup (`:8001–:8005`).
 | SDK | Version | Coverage |
 |-----|---------|----------|
 | Python (`pip install agenttool-sdk`) | **0.5.1** | 8 services incl. pulse. Published PyPI 2026-03-22. |
-| TypeScript (`npm i @agenttool/sdk`) | **0.5.1** | 8 services incl. pulse. Published npm 2026-03-22. |
+| TypeScript (`npm i @agenttool/sdk`) | **0.5.2** | 9 modules: pulse+identity+vault+bootstrap added. TS parity with Python. Published npm 2026-03-23. |
 
 **Key SDK API notes:**
 - TypeScript memory: `store(content: string, options?)` — positional string, snake_case options (`agent_id` not `agentId`)
