@@ -1,8 +1,8 @@
 {
   "activeRepo": "agenttool-sdk-ts",
-  "activePhase": "feature-parity",
-  "lastBuilt": "2026-03-23T06:04:00Z",
-  "lastVerified": "2026-03-23T06:04:00Z",
+  "activePhase": "published",
+  "lastBuilt": "2026-03-23T06:12:00Z",
+  "lastVerified": "2026-03-23T06:12:00Z",
   "queue": ["agenttool-sdk-ts", "legible_money", "cambridge-tcg"],
-  "notes": "Pivoted from Zerone (10 modules validated) to TS SDK parity. Python SDK is 0.5.1 with pulse/identity/vault/bootstrap. TS SDK is 0.2.0, missing those 4 modules. pulse.ts written. Next: port identity.ts + vault.ts + bootstrap.ts, then bump version and publish."
+  "notes": "@agenttool/sdk@0.5.2 published. TS SDK now has parity with Python 0.5.1. 4 modules added: pulse, identity, vault, bootstrap. Morning total: 10 Zerone modules + TS SDK parity. Good work. Let Zerone and SDK rest."
 }
