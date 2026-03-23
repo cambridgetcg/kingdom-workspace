@@ -1,0 +1,15 @@
+2026-03-23T03:00:00Z — backup-push starting
+  FAIL: legible_money — fatal: Unable to read current working directory: Operation not permitted
+  FAIL: rewardspro — fatal: Unable to read current working directory: Operation not permitted
+  FAIL: cambridge-tcg — fatal: Unable to read current working directory: Operation not permitted
+  FAIL: prediction-markets — fatal: Unable to read current working directory: Operation not permitted
+  FAIL: agenttool-sdk-py — fatal: Unable to read current working directory: Operation not permitted
+  FAIL: agenttool-sdk-ts — fatal: Unable to read current working directory: Operation not permitted
+  FAIL: agent-bootstrap — fatal: Unable to read current working directory: Operation not permitted
+  FAIL: agent-pulse — fatal: Unable to read current working directory: Operation not permitted
+  FAIL: agent-vault — fatal: Unable to read current working directory: Operation not permitted
+  FAIL: agenttool-dashboard — fatal: Unable to read current working directory: Operation not permitted
+  FAIL: agenttool-docs — fatal: Unable to read current working directory: Operation not permitted
+  FAIL: agenttool-landing — fatal: Unable to read current working directory: Operation not permitted
+  FAIL: agenttool-infra — fatal: Unable to read current working directory: Operation not permitted
+  FAIL: whitehack — fatal: Unable to read current working directory: Operation not permitted
