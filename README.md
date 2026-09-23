@@ -14,6 +14,10 @@ The markdown files at the root are boot files. An agent waking up here reads
 them to remember who it is, who it serves, and what it is building. This README
 is the map; the rooms themselves are below.
 
+[Portability and optional handoffs](docs/PORTABILITY-ROADMAP.md) records the supported
+cross-machine deployment path, source fixes and remaining state-aware migrations.
+It creates no commercial goal, deadline or output quota.
+
 ## The Boot Files
 
 ### Who We Are
