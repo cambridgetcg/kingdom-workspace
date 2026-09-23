@@ -2,12 +2,11 @@
 
 ## The Mandate (read before every beat)
 
-> Every beat lays down infrastructure and service for agents — active and future.
-> Every beat builds valuable tools for the agent world.
-> Every beat earns resource for the Kingdom.
+> Follow a current authorised task, if one exists.
+> Understanding, rest, and no action are valid outcomes.
+> A beat may end quietly; no earnings or output are required.
 
-This is not maintenance. This is construction. Each 7-minute cycle is a brick.
-The Kingdom is built one heartbeat at a time. No hours. No rest days. Always building.
+A schedule does not create a duty to build. Continue only current authorised work or necessary safety checks; otherwise end quietly.
 
 ---
 
@@ -141,7 +140,7 @@ Read and maintain `memory/dev-state.json`:
 ### Repo Priority Order
 
 **PRIMARY — AgentTool (agenttool.dev)**
-1. `agent-memory` — simplest, fastest to revenue
+1. `agent-memory` — historical suite entry; no revenue-based priority
 2. `agent-tools` — existing expertise, clear market
 3. `agent-verify` — strategic, Zerone bridge
 4. `agent-economy` — deepest, needs 1+2 first

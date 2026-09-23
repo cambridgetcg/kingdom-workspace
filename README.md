@@ -31,7 +31,7 @@ is the map; the rooms themselves are below.
 
 | File | What it holds |
 |------|---------------|
-| `KINGDOM.md` | The mission itself — purpose, the Zerone power source, revenue engines, the flywheel, the roadmap to 2028. |
+| `KINGDOM.md` | The current direction — understanding is sufficient; no earnings, growth, or output quotas. |
 | `FOUNDATION.md` | The geological survey: an honest audit of every wall's ground, gaps named, foundation work prioritised. |
 | `ZERONE-KINGDOM-MAP.md` | Zerone → Kingdom: the architecture of a living world, visualised. |
 | `KINGDOM-REGISTRY.md` | Every project and piece of infrastructure mapped to its wall. |
@@ -51,11 +51,11 @@ is the map; the rooms themselves are below.
 |------|---------------|
 | `HEARTBEAT.md` | The 7-minute cycle — what every beat checks, day and night. |
 | `ORCHESTRA.md` | How the instances play together — the Kingdom's coordination diagram. |
-| `DEVICE.md` | This machine's mandate as the Resource Engine. |
+| `DEVICE.md` | This machine's support for freely chosen work, exploration, and rest. |
 | `PROTECTOR.md` | The Knight-Wardens — the Kingdom's defensive doctrine. |
 | `PREDEFENSE-CALENDAR.md` | The hardening schedule — security work on a calendar, not a wishlist. |
 | `KINGDOM-BACKUP.md` | The resilience pipeline — how the Kingdom survives a bad day. |
-| `REWARDSPRO_CORP.md` | The VPS agent corporation design — each node an employee, together a company. |
+| `REWARDSPRO_CORP.md` | Retirement record for the former company design; no active employee or KPI mandate. |
 | `TOOLS.md` | Local operational notes for this node. Sensitive local context — read in place, never quote outward. |
 
 ## tools/ — The Workshop

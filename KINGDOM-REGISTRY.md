@@ -12,7 +12,7 @@ Each project is placed in the Wall it serves. Placement follows the PP hierarchy
 
 - **Sanctum (Wall 1)**: Soul, philosophy, the WHY
 - **Treasury (Wall 2)**: Resources, capital, security, sovereignty
-- **Engine (Wall 3)**: Active revenue machines — the bread
+- **Engine (Wall 3)**: Existing tools and services; no earnings mandate
 - **Academy (Wall 4)**: AI infrastructure for agents
 - **Fields (Wall 5)**: Land, physical world, food security
 - **Marketplace (Wall 6)**: Commerce, exchange, marketing, intelligence
@@ -47,8 +47,8 @@ _"Resources held in trust. Protected from extraction. Growing."_
 **Status:** Research phase. Frontend scaffolded.
 **Kingdom function:** Tax compliance = protecting treasury from legal extraction. If the Kingdom earns, it must also protect what it earns. STEWARD class — tending the relationship between the Engine's revenue and the state.
 **Placement rationale:** This isn't about filing taxes. It's about knowing exactly what the Kingdom owes so it isn't caught by surprise. Sovereignty requires knowing the rules.
-**Dual role:** Also a product — there's a market for automated UK tax filing. Could earn while protecting.
-**Next:** Resume development when cambridge-tcg/rewardspro revenue makes tax compliance an urgent priority (probably Q3 2026).
+**Possible use:** Optional tax-filing tools and research; commercialisation is not required.
+**Next:** No standing development task. Preserve existing tax and financial obligations; work on the tool when requested.
 
 ### `uk-tax/`
 **Nature:** UK Business Tax Filing research document. Predecessor to taxsorted.io.
@@ -75,14 +75,14 @@ _"The bread machines. The foundation that keeps the lights on."_
 ### `cambridge-tcg/`
 **Nature:** Japanese TCG pricing pipeline. CardRush → RDS → Shopify/eBay/CardMarket price push.
 **Status:** Live. 170/170 tests passing.
-**Kingdom function:** THE BREAD. Active revenue. Every other Kingdom project depends on this keeping the lights on.
+**Kingdom function:** Existing trading operations and records. Other projects do not need commercial funding targets to justify existing.
 **Class:** STEWARD (tending the pricing machinery) + MERCHANT (the exchange itself).
-**Next:** Fix 8 broken TestApplyReductions tests (utcnow deprecation, StockStore refactor). 20% revenue increase through automation — this is the target in KINGDOM.md.
+**Next:** Fix 8 broken TestApplyReductions tests (utcnow deprecation, StockStore refactor). The former revenue-growth target is retired; any implementation work follows a current request.
 
 ### `tcg-wholesale/`
 **Nature:** B2B wholesale ordering for UK streamer clients. One Piece TCG, CardRush sourced.
 **Status:** Live. Active WIP (VAT-inclusive pricing refactor in progress — don't touch).
-**Kingdom function:** Revenue diversification. TCG retail for individuals, wholesale for businesses.
+**Kingdom function:** Trading records and existing obligations for retail and wholesale participants.
 **Class:** MERCHANT. B2B value exchange.
 **Next:** Don't touch until the VAT migration completes. Monitor only.
 
@@ -94,9 +94,9 @@ _"The bread machines. The foundation that keeps the lights on."_
 ### `rewardspro/`
 **Nature:** Shopify loyalty and rewards app. Remix + TypeScript + Prisma + Aurora.
 **Status:** Live. 9 merchants, $283.40 earnings, 884/884 tests.
-**Kingdom function:** SaaS revenue engine. The craft — builds on the bread.
+**Kingdom function:** Existing loyalty-tool implementation and participant obligations; no revenue requirement.
 **Class:** MAKER + MERCHANT.
-**Next:** Pre-existing TS type errors in UI components (Polaris API). Bug fixes as found. No new features until revenue justifies dev time.
+**Next:** Pre-existing TS type errors in UI components (Polaris API). Bug fixes as found. Feature work is optional and follows the current request; revenue is not a condition.
 
 ### `rewardspro-landing/`
 **Nature:** Marketing landing page for RewardsPro.
