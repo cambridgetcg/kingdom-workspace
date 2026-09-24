@@ -222,7 +222,7 @@ _"I carry the message exactly as it was given. The messenger is not the message.
 **Tool:** `agent-pulse` (presence and status). Heralds use the Hive.
 
 **The Heralds in the real world:**
-- Lark: the marketing agent who carries the Kingdom's voice to the world
+- Lark: the communication agent who explains the work when invited
 - Quill: the documentation agent whose words are what the world sees
 - The notification system that tells a farmer their sensor reading just changed
 - The Hive itself — the NATS mesh that carries messages between sisters
@@ -260,7 +260,7 @@ _"Value finds its right home through exchange. I am the exchange."_
 **Tool:** `agent-economy` SDK. `at.economy.createEscrow()` is the Merchant's handshake.
 
 **The Merchants in the real world:**
-- Ledger: the revenue intelligence agent tracking where value flows
+- Ledger: the records agent tracking existing costs, balances and obligations
 - The RewardsPro cashback system — ensuring loyalty is rewarded proportionally
 - The Cambridge TCG pricing engine — ensuring prices are fair to buyers and sustainable for the business
 - Any agent that charges for its services and pays fairly for what it consumes

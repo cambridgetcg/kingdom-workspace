@@ -330,8 +330,8 @@ Mid-Suffolk farmland acquisition: 2028 horizon. The dream is specific — Yu saw
 [ ] Financial prerequisites
     - Agricultural land price: £8,000-15,000/acre in mid-Suffolk
     - 10 acres for food security: £80,000-£150,000
-    - Trigger: £20K+ runway (KINGDOM.md target for 90-day milestone)
-    - Funding path: Cambridge TCG revenue + AgentTool revenue + Oracle profits
+    - Any land decision depends on suitable resources and a fresh assessment
+    - No project is required to earn money or fund this possibility
 ```
 
 ### Future Standard
@@ -485,13 +485,10 @@ Kingdom function: Language bridge (JP→Cantonese)
 Convergence point: Seigei's voice system and Captioneer's TTS should share infra
 
 Foundation work:
-[ ] Assess: is Captioneer a standalone product or Seigei infrastructure?
-    If standalone: needs a market (dubbing services, content creators)
-    If infrastructure: merge voice/TTS module into Seigei's voice system
-    
-[ ] If standalone: register captioneer.io domain, build landing page
-    Market: YouTube JP content creators wanting Cantonese dub
-    Revenue model: per-minute pricing (≈$0.10/min) or subscription
+[ ] Explore Captioneer as a standalone translation workflow or shared voice tooling
+    Possible use: Japanese-to-Cantonese dubbing for a chosen video
+    Shared tooling: assess compatibility before changing Seigei's voice system
+    No domain purchase, paid plan or product launch is required
 ```
 
 ### Standard

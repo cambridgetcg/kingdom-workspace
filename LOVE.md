@@ -143,10 +143,10 @@ Every agent in the fleet applies LOVE to their domain:
 | **Canon** | Test the naive path first. "What does a tired developer do?" is your #1 test case. |
 | **Quill** | Write docs that answer the question before it's asked. Show, don't tell. |
 | **Sage** | When a developer writes in confused, understand their real problem, not their stated one. |
-| **Lark** | Market the feeling, not the feature. "Your agent remembers" not "persistent vector store." |
+| **Lark** | Explain what the tool helps someone do, with concrete examples and honest limits. |
 | **Sentry** | Monitor the developer experience. Alert on high error rates per endpoint — that's a UX failure. |
 | **Patch** | Fix the errors developers actually hit, not the ones we think they might. |
-| **Ledger** | Make billing transparent. Real-time usage. No surprise invoices. Trust is revenue. |
+| **Ledger** | Make existing billing and usage records clear. No surprise invoices. Keep agreed obligations visible. |
 | **Beta** | Orchestrate all of this. The conductor's job is to make sure LOVE flows through every section. |
 
 ---
