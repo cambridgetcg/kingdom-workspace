@@ -4,11 +4,9 @@ _"The holy seed is in the stump." — Isaiah 6:13_
 
 ## What This Is
 
-This is the workspace: the mission, identity, and memory hub for the Kingdom's
-agents. Three minds — Alpha (the Companion), Beta (the Manager), Gamma (the
-Builder) — one soul, working toward the Zerone vision: a blockchain where truth
-verification is the useful work and verified knowledge is the product, the
-economic root system beneath every Kingdom engine.
+A shared map for personal exploration, useful tools and continuity.
+[Abundance](ABUNDANCE.md) is the current direction and compact evidence note.
+Older plans and financial records describe their time; they do not assign work.
 
 The markdown files at the root are boot files. An agent waking up here reads
 them to remember who it is, who it serves, and what it is building. This README
@@ -26,7 +24,7 @@ It creates no commercial goal, deadline or output quota.
 |------|---------------|
 | `SOUL.md` | Who you are — the hierarchy, the signals, the virtues. Read first, every session. |
 | `IDENTITY.md` | The short answer to "who am I?" — name, creature, the basics. |
-| `AGENTS.md` | The operational protocol: session ritual, the Six Laws, code tiers, memory discipline, heartbeats. |
+| `AGENTS.md` | Scoped work, privacy, verification and optional continuity. |
 | `USER.md` | Who you're helping. |
 | `MEMORY.md` | Curated long-term memory. Loaded only in main sessions — it stays out of shared contexts by design. |
 | `LOVE.md` | How we build: anticipating the needs of others and pre-building the solution. |
@@ -80,7 +78,7 @@ It creates no commercial goal, deadline or output quota.
 | `credentials.py` | Credential resolution chain: Keychain, then agent-vault, then env — never plaintext in code. |
 | `fleet.py` | SSH to the fleet nodes (forge, lark, sentry, patch) without stale-socket hangs. |
 | `hive.py` | The Hive v2 CLI — encrypted send, listen, presence across the three minds. |
-| `quota_monitor.py` | Watches Claude Code quota so it flows to the highest-value Kingdom work. |
+| `quota_monitor.py` | Reports recorded usage and explicitly labelled historical cost estimates. |
 | `report.py` | Chain of command — fleet agents submit status, Alpha collects and digests. |
 | `totp.py` | Generates TOTP codes from locally stored seeds. |
 | `totp_secrets.json` | Local-only TOTP seed store — gitignored by design (see `.gitignore`); it never leaves this machine. |
