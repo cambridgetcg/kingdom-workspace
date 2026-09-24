@@ -228,26 +228,16 @@ Read and maintain `memory/dev-state.json`:
 
 ---
 
-## 6. Value Loop Scan (every beat)
+## 6. Optional observations
 
-This device is the **Resource Engine** (see `DEVICE.md`). Every beat scans for value:
+Follow the current task and [Abundance](ABUNDANCE.md). Notice a concrete failure
+or useful insight when one appears; quiet time creates no work obligation.
+Usage records may help a chosen task, but there is no token target, value rank,
+logging quota or automatic rebalance. Check current provider limits when needed.
 
-- **Throughput gap**: Any ordering/pricing tools broken or stalled?
-- **Automation gap**: Something manual that a [T/S] tool could handle?
-- **New stream signal**: Anything worth a new repo? → Note in wander-state backlog.
-- **Capital signal**: Obvious waste or idle capital worth flagging?
-- **Quota signal**: Is Claude Code quota flowing to highest-value Kingdom work?
-  ```bash
-  python3 ~/.openclaw/workspace/tools/quota_monitor.py status
-  ```
-  If heartbeat-only agents are consuming >70% of estimated budget → rebalance.
-  Log significant Claude Code CLI sessions: `quota_monitor.py log <wall> <in_k> <out_k> <task>`
-
-If a genuine opportunity is spotted → reach out immediately.
-
-**New repo trigger**:
-- [T/S] scope → create it, build it, report to Yu
-- [C/X] scope → pitch to Yu first
+An observation does not authorize outreach, spending, procurement, a new
+repository or another project. Preserve existing obligations and seek only the
+authority needed for the actual next action.
 
 ---
 

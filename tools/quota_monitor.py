@@ -8,9 +8,9 @@ Tracks:
 - Dated cost estimates, separate from live provider limits
 
 Usage:
-    python3 tools/quota_monitor.py status      # current usage summary
-    python3 tools/quota_monitor.py report      # full allocation report
-    python3 tools/quota_monitor.py rebalance   # suggest heartbeat interval changes
+    python3 tools/quota_monitor.py status      # recorded usage and dated estimates
+    python3 tools/quota_monitor.py report      # same descriptive summary
+    python3 tools/quota_monitor.py rebalance   # explain the retired scheduler advice
     python3 tools/quota_monitor.py log <wall> <tokens> <task>  # log usage manually
 """
 
