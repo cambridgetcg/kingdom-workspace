@@ -11,52 +11,26 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 
 ### Anthropic API Key (VPS agents — dedicated)
 - Keychain: `anthropic-primary`
-- Configured on: rp-rd + rp-mktg (separate from Mac Studio key)
+- Configured on: rp-rd + rp-mktg (separate from Mac Studio key); both nodes retired 2026-10-13 with the Hetzner fleet
 - Models: claude-sonnet-4-6 (rp-rd primary), claude-opus-4-6 (future CEO/Legal)
 
 ### OpenAI API Key (VPS agents)
 - Keychain: `openai-primary`
-- Configured on: rp-rd (fallback) + rp-mktg (primary: gpt-4o)
+- Configured on: rp-rd (fallback) + rp-mktg (primary: gpt-4o); both nodes retired 2026-10-13 with the Hetzner fleet
 - Models available: gpt-4o, gpt-4o-mini, gpt-4o-search-preview
 
 ### GitHub PAT (rp-rd agent)
 - Keychain: `github-cambridgetcg`
 - Account: cambridgetcg
 - Access: push to cambridgetcg/rewardspro
-- Configured on: rp-rd (89.167.84.100) via gh CLI + git-credentials + openclaw config env.GITHUB_TOKEN
-- Repo cloned at: /root/rewardspro on rp-rd
+- Was configured on rp-rd (Hetzner, retired 2026-10-13); no live host holds it now
 
-### Hetzner VPS Fleet (RewardsPro AI Workforce)
+### Hetzner VPS Fleet: retired 2026-10-13
 
-- Keychain: `hetzner-api-token`
-- SSH Key: Yu's Mac Studio `~/.ssh/id_ed25519` (Hetzner key ID: 108703286)
-- Gateway tokens: `vps-forge-token`, `vps-lark-token`, `vps-sentry-token`, `vps-patch-token`, `vps-gpt5-token`
-
-| Node | Name | Role | Model | IP | Port | Cost |
-|------|------|------|-------|----|------|------|
-| rp-rd | **Forge** | R&D Engineer | claude-sonnet-4-6 | 89.167.84.100 | 3001 | €3.49/mo |
-| rp-mktg | **Lark** | Marketing & Growth | claude-sonnet-4-6 | 89.167.95.165 | 3001 | €3.49/mo |
-| rp-sentry | **Sentry** | Monitoring & Investigation | claude-sonnet-4-6 | 135.181.28.252 | 3001 | €3.99/mo |
-| rp-patch | **Patch** | Maintenance & Fixes | claude-sonnet-4-6 | 65.109.11.26 | 3001 | €3.99/mo |
-| rp-gpt5 | **GPT5** | GPT-5.4 Test Agent | openai/gpt-5.4 | 204.168.140.12 | 3001 | €3.49/mo |
-
-- SSH: `ssh root@<ip>` (key auth, no password)
-- Gateway: systemd service (`systemctl --user status openclaw-gateway.service`)
-- Gateway logs: `/tmp/openclaw/openclaw-YYYY-MM-DD.log`
-- Workspace: `/root/.openclaw/workspace/`
-- Heartbeat: 22m cycle for all agents
-- Region: Helsinki (hel1), Ubuntu 24.04
-- cx23 (Forge/Lark), cax11 ARM (Sentry/Patch)
-- Total cost: ~€14.96/mo
+The Hetzner fleet (Forge, Lark, Sentry, Patch, GPT5/Sage) was decommissioned and its IP addresses now belong to other Hetzner customers. Do not SSH to the old addresses. The node table, gateway notes and Hetzner key details are in git history before this change.
 
 ### Flaresolverr (Cloudflare bypass)
-- Host: rp-rd (89.167.84.100), Docker container `flaresolverr`
-- Port: 127.0.0.1:8191 (localhost only — not public)
-- Version: 3.4.6 | Chrome 142
-- Helper script: `/root/flaresolve.sh <url> [--cookies-only]`
-- API: `POST http://127.0.0.1:8191/v1` with `{"cmd":"request.get","url":"...","maxTimeout":60000}`
-- Auto-restarts: `--restart always` Docker policy
-- Use from Mac Studio: `ssh root@89.167.84.100 /root/flaresolve.sh <url>`
+- Retired 2026-10-13: the only instance ran on rp-rd (Hetzner), which was decommissioned. To use it again, run it locally with Docker (see `tools/TOOLKIT-LOCAL.md`).
 
 ### Marketing — Rewards Pro
 
@@ -226,7 +200,7 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 - Keychain: `deepseek`
 - Base URL: https://api.deepseek.com
 - Models: deepseek-chat (V3, $0.27/M in, $1.10/M out), deepseek-reasoner (R1)
-- Deployed to: Lark (rp-mktg), env var DEEPSEEK_API_KEY
+- Was deployed to: Lark (rp-mktg, Hetzner, retired 2026-10-13), env var DEEPSEEK_API_KEY
 
 ### GitHub PAT (mynameisyou-cmyk — agenttool)
 - Keychain: `github-mynameisyou`
@@ -247,10 +221,7 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 - Swap route: POL → WMATIC (deposit) → USDC via Uniswap V3 (fee tier 500/0.05%)
 
 ### Hive NATS Tunnel
-- `use-tunnel` flag: `~/.openclaw/.hive/use-tunnel` (exists = use localhost tunnel)
-- Tunnel cmd: `ssh -fN -L 4222:127.0.0.1:4222 root@135.181.28.252`
-- Check tunnel: `ps aux | grep "ssh.*4222" | grep -v grep`
-- NATS server: `135.181.28.252:4222` (Sentry)
+- Retired 2026-10-13: the NATS server ran on Sentry (Hetzner), which was decommissioned. There is no tunnel to open; `tools/hive.py` now exits with a "retired" message.
 
 ### Code4rena (kwok_whitehat)
 - Username: `kwok_whitehat`

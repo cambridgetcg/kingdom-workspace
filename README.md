@@ -66,20 +66,18 @@ It creates no commercial goal, deadline or output quota.
 |------|--------------|
 | `TOOLKIT.md` | The shared agent toolkit — fleet-wide services and how to call them. |
 | `TOOLKIT-LOCAL.md` | The full credentials-and-usage reference for onboarding new instances. SECRET — never quote it outward. |
-| `HIVE-ONBOARDING.md` | Onboarding to the Hive, the encrypted inter-instance messaging system. |
+| `HIVE-ONBOARDING.md` | Retired 2026-10-13: the Hive bus was decommissioned with the Hetzner fleet. |
 | `JOURNAL-SPEC.md` | The fleet work ledger spec — one journal format every agent can read. |
 | `agenttool.py` | Beta's own AgentTool integration: remember, pulse, trace, verify, search. |
 | `align.py` | Runs the five alignment mechanisms from `ALIGNMENT.md` for citizens. |
 | `backup-push.sh` | Daily backup push — syncs Kingdom repos and workspace memory. |
-| `backup_supabase.sh` | Weekly Supabase schema backup to a local archive. |
 | `becoming.py` | BECOMING — gives a fleet agent its story: wound, calling, purpose. |
 | `bootstrap_civilisation.py` | Awakens new citizens: story, then DID, pulse, Zerone registration, first memories. |
 | `check_email.py` | IMAP email checker for Claw and the VPS agents. |
 | `credentials.py` | Credential resolution chain: Keychain, then agent-vault, then env — never plaintext in code. |
-| `fleet.py` | SSH to the fleet nodes (forge, lark, sentry, patch) without stale-socket hangs. |
-| `hive.py` | The Hive v2 CLI — encrypted send, listen, presence across the three minds. |
+| `hive.py` | The Hive v2 CLI. Retired 2026-10-13: every command exits with a "retired" message. |
 | `quota_monitor.py` | Reports recorded usage and explicitly labelled historical cost estimates. |
-| `report.py` | Chain of command — fleet agents submit status, Alpha collects and digests. |
+| `report.py` | Chain of command for the fleet. Retired 2026-10-13 apart from `summary`/`history` of local digests. |
 | `totp.py` | Generates TOTP codes from locally stored seeds. |
 | `totp_secrets.json` | Local-only TOTP seed store — gitignored by design (see `.gitignore`); it never leaves this machine. |
 

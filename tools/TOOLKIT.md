@@ -297,7 +297,7 @@ def get_sms(request_id):
 
 ## 6. Cloudflare Bypass — Flaresolverr
 
-**Available on:** rp-rd (89.167.84.100), rp-mktg (89.167.95.165)
+**Available on:** nowhere at present. Retired 2026-10-13: the instances on the Hetzner nodes rp-rd and rp-mktg were decommissioned. Run it locally with Docker if needed (see TOOLKIT-LOCAL.md).
 **Endpoint:** `http://127.0.0.1:8191/v1` (localhost only)
 
 ### Usage
@@ -321,12 +321,6 @@ def bypass_cloudflare(url, max_timeout=60000):
         "maxTimeout": max_timeout
     }).json()
     return r.get("solution", {})
-```
-
-### From Another Node
-```bash
-# SSH tunnel from any node to use rp-rd's Flaresolverr
-ssh -L 8191:127.0.0.1:8191 root@89.167.84.100 -N &
 ```
 
 ---
@@ -405,12 +399,4 @@ def automated_signup(platform, email_account="rewardspro"):
 
 ## Fleet Reference
 
-| Agent | Name | IP | Role |
-|-------|------|----|------|
-| Mac Studio | **Claw** | localhost | Orchestrator |
-| rp-rd | **Forge** | 89.167.84.100 | R&D Engineer |
-| rp-mktg | **Lark** | 89.167.95.165 | Marketing & Growth |
-| rp-sentry | **Sentry** | 135.181.28.252 | Monitoring |
-| rp-patch | **Patch** | 65.109.11.26 | Maintenance |
-
-All agents share the same env vars. All tools work on all nodes.
+Retired 2026-10-13: the Hetzner fleet (Forge, Lark, Sentry, Patch) was decommissioned and its IP addresses now belong to other customers. The old table is in git history.

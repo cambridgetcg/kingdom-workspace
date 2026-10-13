@@ -261,22 +261,9 @@ curl "https://hero-sms.com/api/getSms?apiKey=API_KEY&id=REQUEST_ID"
 
 ## 6. Cloudflare Bypass — Flaresolverr
 
-**Runs on:** rp-rd (89.167.84.100), rp-mktg (89.167.95.165)
+**Runs on:** nowhere at present. Retired 2026-10-13: the instances on rp-rd and rp-mktg (Hetzner) were decommissioned; install locally as below.
 **Port:** 127.0.0.1:8191 (localhost only)
 **Version:** 3.4.6 | Chrome 142
-
-### Remote usage (from any machine)
-```bash
-# Via SSH
-ssh root@89.167.84.100 '/root/flaresolve.sh "https://protected-site.com"'
-
-# Cookies only
-ssh root@89.167.84.100 '/root/flaresolve.sh "https://protected-site.com" --cookies-only'
-
-# SSH tunnel for local access
-ssh -L 8191:127.0.0.1:8191 root@89.167.84.100 -N &
-curl -s http://127.0.0.1:8191/v1 -d '{"cmd":"request.get","url":"https://protected-site.com","maxTimeout":60000}'
-```
 
 ### Install on New Device
 ```bash
@@ -419,16 +406,9 @@ output = json
 
 ---
 
-## VPS Fleet (SSH access available)
+## VPS Fleet: retired 2026-10-13
 
-| Node | Name | Role | IP | Token |
-|------|------|------|----|-------|
-| rp-rd | Forge | R&D | 89.167.84.100 | ***REMOVED-ROTATE-ME*** |
-| rp-mktg | Lark | Marketing | 89.167.95.165 | ***REMOVED-ROTATE-ME*** |
-| rp-sentry | Sentry | Monitoring | 135.181.28.252 | ***REMOVED-ROTATE-ME*** |
-| rp-patch | Patch | Maintenance | 65.109.11.26 | ***REMOVED-ROTATE-ME*** |
-
-All SSH via `ssh root@<ip>` using ed25519 key. Gateway on port 3001 with token auth.
+The Hetzner fleet (Forge, Lark, Sentry, Patch) was decommissioned and its IP addresses now belong to other customers. Do not SSH to them. The old table is in git history.
 
 ---
 

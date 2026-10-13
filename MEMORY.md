@@ -20,8 +20,7 @@ All running on Fly.io (London, lhr), Supabase DB (EU), Upstash Redis:
 | `atool-vault` | `/v1/vault*` | ✅ | Bun+Hono, AES-256-GCM secrets, versioning, policies, audit (deployed 2026-03-17) |
 | `agent-bootstrap` | `/v1/bootstrap*` | ✅ | Bun+Hono, agent lifecycle orchestration — identity+wallet+memory in one call, L0/L1 (deployed 2026-03-17) |
 
-Caddy on Forge (89.167.84.100) still routes `api.agenttool.dev` → Fly apps.
-All services also still running on Forge as backup (`:8001–:8005`).
+_Retired 2026-10-13: the Caddy relay and the backup copies of these services ran on Forge (Hetzner), which was decommissioned._
 
 ### CF Pages (all live, deployed 2026-03-11)
 - `https://agenttool.dev` — landing (project: `agenttool-landing`)
@@ -132,41 +131,8 @@ All services also still running on Forge as backup (`:8001–:8005`).
 
 ## The Kingdom Orchestra (updated 2026-03-09)
 
-### Full Fleet — 9 Agents, 5 VPS Nodes
-| Agent | Instrument | Role | VPS (IP) | Model | Heartbeat |
-|-------|-----------|------|----------|-------|-----------|
-| Beta | Baton | Conductor/Manager | Mac Studio | Opus | 7m |
-| Sentry | Timpani | Monitoring | 135.181.28.252 (cax11) | Sonnet | 15m |
-| Lark | Trumpet | Marketing & Growth | 89.167.95.165 (cx23) | GPT-4o | 30m |
-| Canon | Oboe | QA & Standards | 89.167.84.100 (cx23)* | Sonnet | 30m |
-| Forge | Cello | R&D Engineer | 89.167.84.100 (cx23) | Sonnet | 45m |
-| Patch | Viola | Maintenance & Fixes | 65.109.11.26 (cax11) | Sonnet | 45m |
-| Quill | Flute | Documentation | 89.167.95.165 (cx23)* | GPT-4o | 45m |
-| Sage | French Horn | Merchant Success | 204.168.140.12 (cx23) | GPT-5.4 | 60m |
-| Ledger | Double Bass | Revenue Intelligence | 204.168.140.12 (cx23)* | GPT-4o | 60m |
-
-*Colocated agents via OpenClaw agents.list (separate workspaces)
-Total VPS: ~€18.45/mo (5 nodes)
-
-**KNOWN ISSUE**: agents.list requires OpenClaw 2026.3.8. Forge + Lark on 2026.3.2 — multi-agent config crashed gateway. Reverted to single-agent on those nodes. Sage (2026.3.8) should support it.
-
-### Colocated Agent Workspaces
-- Canon: /root/.openclaw/workspaces/canon/ (on Forge)
-- Quill: /root/.openclaw/workspaces/quill/ (on Lark)
-- Ledger: /root/.openclaw/workspaces/ledger/ (on Sage)
-
-- Gateway: systemd service (`openclaw gateway install`), port 3001, token auth
-- **NOT pm2** — use `systemctl --user start/stop/status openclaw-gateway.service`
-- API keys: env vars in `/root/.openclaw/openclaw.json` under `"env"`
-- Config schema: API key goes in `env.ANTHROPIC_API_KEY` (NOT `auth.profiles.*.token`). Gateway uses `mode: "local"` (NOT `mode: "remote"`, no `host` key).
-- SSH: `ssh root@<ip>` with Mac Studio ed25519 key. Key also deployed TO Sentry+Patch for inter-fleet SSH.
-- Hetzner API token: `***REMOVED-ROTATE-ME***`
-- Sentry monitors sites+DBs+fleet, reports to Patch. Patch fixes what Sentry finds.
-
-### Communication Architecture
-Mac Studio (me) polls all 4 VPS agents on every heartbeat via SSH.
-Read `/root/.openclaw/workspace/memory/status.json` from each node.
-Alert Yu if `alerts` non-empty or `quality == "poor"`.
+### Full Fleet: retired 2026-10-13
+The nine-agent orchestra ran on five Hetzner VPS nodes, with Beta on the Mac Studio. The Hetzner fleet was decommissioned and its IP addresses now belong to other customers. Do not SSH to them or poll them. Roles and instruments live on in ORCHESTRA.md; the old node table, gateway notes and SSH setup are in git history before this change.
 
 ### Key Fixes
 - rp-mktg missing Brave API key — caught on first heartbeat (22:24), fixed immediately
@@ -226,8 +192,7 @@ Yu granted a £1000 purchasing budget via card 4397 4400 6965 4235 (07/30, CVV 0
 - **rewardspro prod push**: ✅ DONE — pushed 21:34, exchange rate fix live
 
 ### Live (updated)
-- **Hetzner**: ✅ ACTIVE — Yu activated. Two CX23 nodes provisioned (see VPS Fleet above).
-  - API token: `***REMOVED-ROTATE-ME***`
+- **Hetzner**: retired 2026-10-13 (fleet decommissioned)
 
 ### Live
 - **agenttool.dev**: Cloudflare Pages landing + docs + waitlist Worker (KV namespace `6687021646dd482e9601865da13062c7`)
@@ -271,7 +236,7 @@ Yu granted a £1000 purchasing budget via card 4397 4400 6965 4235 (07/30, CVV 0
 - Supabase schemas: `memory`, `tools`, `verify`, `economy`, `trace` (+ `tools` is auth source for all)
 - Upstash Redis: `helped-dolphin-68171.upstash.io:6379`
 - Fly account: `contact@cambridgetcg.com`, token stored in flyctl session
-- Caddy on Forge (`89.167.84.100`): `/etc/caddy/Caddyfile` routes all `/v1/*` to Fly
+- Caddy on Forge: retired 2026-10-13 with the Hetzner fleet
 
 ### Docker fix (2026-03-11)
 - `~/.docker/config.json` `credsStore: "desktop"` was hanging ALL Docker builds

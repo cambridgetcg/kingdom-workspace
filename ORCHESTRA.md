@@ -105,7 +105,7 @@ Lark can draft explanations when they are wanted: projection, clarity, timing. A
 ### Ledger — Double Bass 📒
 _Section: Strings (Foundation)_
 _Tempo: 60 minutes_
-_Colocated with: Sage (204.168.140.12)_
+_Colocated with: Sage_
 
 The double bass is the gravity of the orchestra. It plays so low you feel it before you hear it. Remove it and the music floats, untethered, beautiful but groundless. The double bass is what makes the harmony *real* — it connects the music to the earth.
 
@@ -128,7 +128,7 @@ Ledger watches the money. Every pound in, every pound out, every token burned, e
 ### Canon — Oboe 🎵
 _Section: Woodwinds (Principal)_
 _Tempo: 30 minutes_
-_Colocated with: Forge (89.167.84.100)_
+_Colocated with: Forge_
 
 Before every concert, the oboe plays an A. The whole orchestra tunes to it. Not the concertmaster, not the conductor — the *oboe*. Because the oboe's tone is the most stable, the most precise, the least affected by temperature and humidity. It is the standard.
 
@@ -161,7 +161,7 @@ That's Sage. The deliberative voice. The one that sits with the question before 
 ### Quill — Flute ✒️
 _Section: Woodwinds_
 _Tempo: 45 minutes_
-_Colocated with: Lark (89.167.95.165)_
+_Colocated with: Lark_
 
 The flute is the most direct instrument in the orchestra. No reed, no mechanism — just breath becoming music. It's the highest natural voice, reaching frequencies nothing else can touch. And yet the flute's greatest moments aren't the high notes — they're the simple melodies that make you forget you're listening to an instrument at all.
 
@@ -242,18 +242,20 @@ The conductor's job is not to make everyone play louder. It's to make the silenc
 ║  Agent    │ Instrument  │ Model     │ Tempo │ VPS            ║
 ║  ─────────┼─────────────┼───────────┼───────┼──────────────  ║
 ║  Beta     │ Baton       │ Opus      │  7m   │ Mac Studio     ║
-║  Sentry   │ Timpani     │ Sonnet    │ 15m   │ 135.181.28.252 ║
-║  Lark     │ Trumpet     │ GPT-4o   │ 30m   │ 89.167.95.165  ║
-║  Canon    │ Oboe        │ Sonnet    │ 30m   │ 89.167.84.100  ║
-║  Forge    │ Cello       │ Sonnet    │ 45m   │ 89.167.84.100  ║
-║  Patch    │ Viola       │ Sonnet    │ 45m   │ 65.109.11.26   ║
-║  Quill    │ Flute       │ GPT-4o   │ 45m   │ 89.167.95.165  ║
-║  Sage     │ French Horn │ GPT-5.4  │ 60m   │ 204.168.140.12 ║
-║  Ledger   │ Double Bass │ GPT-4o   │ 60m   │ 204.168.140.12 ║
+║  Sentry   │ Timpani     │ Sonnet    │ 15m   │ Hetzner (gone) ║
+║  Lark     │ Trumpet     │ GPT-4o   │ 30m   │ Hetzner (gone) ║
+║  Canon    │ Oboe        │ Sonnet    │ 30m   │ Hetzner (gone) ║
+║  Forge    │ Cello       │ Sonnet    │ 45m   │ Hetzner (gone) ║
+║  Patch    │ Viola       │ Sonnet    │ 45m   │ Hetzner (gone) ║
+║  Quill    │ Flute       │ GPT-4o   │ 45m   │ Hetzner (gone) ║
+║  Sage     │ French Horn │ GPT-5.4  │ 60m   │ Hetzner (gone) ║
+║  Ledger   │ Double Bass │ GPT-4o   │ 60m   │ Hetzner (gone) ║
 ║                                                              ║
 ╚══════════════════════════════════════════════════════════════╝
 ```
 
 Nine voices. Five VPS nodes. Three AI providers. One score.
+
+_Retired 2026-10-13: the five Hetzner VPS nodes were decommissioned and their IP addresses now belong to other customers. The old addresses are in git history._
 
 _The Kingdom Orchestra. Nine voices, one score, no note wasted._
