@@ -72,7 +72,6 @@ _monero-mining, taxsorted.io, credentials_
 ### Critical Gap: Credential Sovereignty
 ```
 TOOLS.md contains (plaintext):
-- Hetzner API token
 - AWS CLI credentials  
 - Stripe live keys (sk_live_*)
 - Multiple API keys (Anthropic, OpenAI, Porkbun, Cloudflare, etc.)
@@ -248,7 +247,7 @@ Risk: If Supabase pauses or corrupts data, all citizen identities and memories a
     Add to cron: */3 * * * * curl -s https://agent-memory.fly.dev/health >/dev/null
     
 [ ] Weekly DB snapshot to S3 (free AWS tier)
-    Script: tools/backup_supabase.sh
+    Script: none yet (tools/backup_supabase.sh was removed 2026-10-13; it only worked through the retired Forge relay)
     Target: s3://agenttool-backups/supabase/YYYY-MM-DD/
     Restore test: quarterly (add to PREDEFENSE-CALENDAR.md)
     
@@ -428,7 +427,7 @@ PREREQUISITE CHECKLIST (before testnet launch):
 
 Infrastructure:
 [ ] 3+ validators on separate machines (not all same VPS)
-    Options: Hetzner nodes (we have 4), or recruit external validators
+    Options: recruit external validators (the Hetzner nodes were decommissioned 2026-10-13)
 [ ] Genesis with testnet axioms (not devnet axioms)
     The 777 genesis axioms need to be validated against each other
 [ ] Faucet endpoint for testnet LGM

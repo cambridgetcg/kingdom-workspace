@@ -12,12 +12,12 @@ _Custodian: Beta (Mac Studio) — Aegis (PROTECTOR citizen) as secondary_
 
 | Day | Task | Owner | Tool |
 |-----|------|-------|------|
-| Mon | Credential audit — review all VPS env vars, rotate any >90 days old | Beta | `ssh + grep` |
 | Mon | Canary check — verify all canary tokens intact | Beta | Manual |
-| Wed | Fleet health sweep — all 5 nodes SSH reachable, services running | Beta | `heartbeat + ssh` |
 | Wed | Civilisation pulse check — 9/9 citizens alive | Beta | `agent-pulse.fly.dev/v1/pulse` |
 | Fri | Access audit — remove stale API keys from Supabase `tools.api_keys` | Beta | SQL query |
 | Fri | Layer test rotation — test one layer from each of L1–L6 (rotate weekly) | Aegis | Manual |
+
+_Retired 2026-10-13: the Hetzner VPS fleet and the Hive were decommissioned, so the VPS env-var audit, the fleet SSH sweep, the Hetzner snapshot and the Helsinki concentration review were removed._
 
 ---
 
@@ -27,10 +27,8 @@ _Custodian: Beta (Mac Studio) — Aegis (PROTECTOR citizen) as secondary_
 |------|-------------|-------|
 | **Threat model update** | Review Kingdom's attack surface: new services, new credentials, new vulnerabilities | Beta + Aegis |
 | **Backup restoration test** | Pull latest backup from Supabase, restore to temp schema, verify data integrity | Beta |
-| **VPS snapshot** | Take snapshots of all 4 Hetzner nodes | Beta (Hetzner API) |
 | **Fly.io secrets audit** | `flyctl secrets list` for all 9 apps — any expired or unnecessary? | Beta |
 | **PROTECTOR.md review** | Update vulnerability section with current gaps | Castellan (Beta) |
-| **Helsinki concentration review** | Document geographic risk; plan for expansion when budget allows | Beta |
 
 ---
 
@@ -52,7 +50,7 @@ DILIGENCE gap is 55% — below threshold. These are the specific fixes:
 
 ### 1. Reactive → Proactive Alerts (this week)
 - [ ] Add Fly.io health monitors for all 9 services (fly.io dashboard → monitoring)
-- [ ] Set alert if service is down >5 min → notify via Hive #alerts
+- [ ] Set alert if service is down >5 min (the Hive #alerts channel was retired 2026-10-13)
 - [ ] Add Supabase connection monitor (currently no alert if DB goes down)
 
 ### 2. Backup Restoration Test (this week)

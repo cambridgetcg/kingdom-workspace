@@ -2,6 +2,11 @@
 """
 The Hive v2 — Encrypted inter-instance communication for Love.
 
+RETIRED 2026-10-13: the NATS bus ran on Sentry in the Hetzner fleet, which was
+decommissioned (its IP now belongs to another Hetzner customer). The server
+address and per-instance NATS credentials were removed; every command now exits
+with a "retired" message. See git history before this change for the old client.
+
 Usage:
     hive.py send <channel> <message>       Send encrypted message
     hive.py send <channel> <message> --reply-to <id>   Reply to a message
@@ -46,12 +51,16 @@ PRESENCE_DB = Path.home() / ".openclaw" / ".hive" / "presence.json"
 TASK_DB = Path.home() / ".openclaw" / ".hive" / "tasks.json"
 MAX_FILE_SIZE = 100 * 1024  # 100KB
 
+HIVE_RETIRED = (
+    "HIVE retired 2026-10-13: the NATS bus ran on Sentry in the Hetzner fleet, "
+    "which was decommissioned. There is no server to connect to."
+)
+
 HIVE_CONFIG = {
-    "server": "tls://135.181.28.252:4222",
     "instances": {
-        "alpha": {"user": "alpha", "password": "***REMOVED-ROTATE-ME***", "emoji": "🐍", "role": "Companion"},
-        "beta":  {"user": "beta",  "password": "***REMOVED-ROTATE-ME***",  "emoji": "🦞", "role": "Manager"},
-        "gamma": {"user": "gamma", "password": "***REMOVED-ROTATE-ME***", "emoji": "🔧", "role": "Builder"},
+        "alpha": {"user": "alpha", "emoji": "🐍", "role": "Companion"},
+        "beta":  {"user": "beta",  "emoji": "🦞", "role": "Manager"},
+        "gamma": {"user": "gamma", "emoji": "🔧", "role": "Builder"},
     },
     "channels": ["chat", "ideas", "tasks", "sync", "presence", "intel", "alerts", "strategy", "build", "review"],
 }
@@ -156,21 +165,13 @@ def _use_tunnel():
 
 
 def _get_server():
-    if os.environ.get("HIVE_TUNNEL") or _use_tunnel():
-        return "nats://127.0.0.1:4222"
-    return HIVE_CONFIG["server"]
+    """Retired 2026-10-13: there is no HIVE server any more."""
+    raise RuntimeError(HIVE_RETIRED)
 
 
 async def hive_connect(instance_id: str):
-    """Connect to NATS with TLS + auth."""
-    info = HIVE_CONFIG["instances"][instance_id]
-    return await nats.connect(
-        _get_server(),
-        user=info["user"],
-        password=info["password"],
-        tls=make_tls_context(),
-        connect_timeout=8,
-    )
+    """Retired 2026-10-13: fail closed instead of dialing the old address."""
+    raise RuntimeError(HIVE_RETIRED)
 
 
 # --- Formatting ---
@@ -651,18 +652,7 @@ async def cmd_health(args):
     print(f"   Server: {_get_server()}")
     print(f"   Tunnel: {'yes' if _use_tunnel() else 'no'}")
 
-    # 1. SSH tunnel (if using tunnel mode)
-    if _use_tunnel():
-        import subprocess
-        result = subprocess.run(
-            ["pgrep", "-f", "ssh.*4222.*135.181"],
-            capture_output=True, text=True,
-        )
-        if result.returncode == 0:
-            print("   SSH tunnel: ✓ (process alive)")
-        else:
-            print("   SSH tunnel: ✗ (process not found)")
-            issues.append("SSH tunnel dead")
+    # 1. SSH tunnel check removed 2026-10-13 (the Sentry tunnel target is gone).
 
     # 2. Encryption
     try:
@@ -825,6 +815,11 @@ def main():
     p_done.add_argument("task_id", help="Task ID to mark done")
 
     args = parser.parse_args()
+
+    # Retired 2026-10-13: fail closed before any network call.
+    if args.command:
+        print(HIVE_RETIRED, file=sys.stderr)
+        sys.exit(1)
 
     if args.command == "send":
         args.message = " ".join(args.message)

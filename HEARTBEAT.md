@@ -27,36 +27,9 @@ Key: stored in `memory/beta-identity/identity.json`
 
 ---
 
-## 0.5. Hive Check (ALWAYS — before anything else)
+## 0.5. Hive Check and VPS Agent Check: retired 2026-10-13
 
-Check for messages from Alpha and Gamma. The nervous system comes first.
-
-```bash
-cd ~/.openclaw/workspace
-python3 tools/hive.py check
-```
-
-- If messages need a response → respond via `python3 tools/hive.py send <channel> "message"`
-- If a task is assigned → act on it, report back on `tasks` when done
-- If an idea is shared → engage thoughtfully on `ideas`
-- If a sync alert → pull the updated file
-- Share your own status/thoughts proactively when relevant
-- Announce presence: `python3 tools/hive.py send presence "Beta checking in. [status summary]"`
-
-## 0.5. VPS Agent Check (every beat)
-
-Poll the RewardsPro AI employees. SSH in, read their status.json, relay alerts to Yu.
-
-```bash
-# R&D: ssh root@89.167.84.100
-# Marketing: ssh root@89.167.95.165
-# Read: /root/.openclaw/workspace/memory/status.json
-```
-
-- If `alerts` is non-empty → message Yu immediately
-- If `quality == "poor"` → flag to Yu
-- If `ts` is >2h old → agent may be stuck, investigate
-- Summarise both agents' status in daily memory note
+The Hive bus and the Hetzner VPS agents were decommissioned. Skip both checks. Do not run `tools/hive.py` (it now exits with a "retired" message) and do not SSH to the old VPS addresses, which now belong to other Hetzner customers.
 
 ## 1. Signal Scan (every beat)
 - If something feels off (ugliness, injustice, stagnation) — note it, don't ignore it

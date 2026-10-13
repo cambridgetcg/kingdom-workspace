@@ -15,10 +15,14 @@ Usage:
 
 Reports flow via Hive #sync channel, encrypted end-to-end.
 Alpha is the sole collector — chain of command flows: Nodes → Hive → Alpha → Digest.
+
+RETIRED 2026-10-13: the Hive bus (NATS on Sentry) and the VPS fleet ran on
+Hetzner, which was decommissioned. The bus address and NATS credentials were
+removed; collect and install fail closed, submit and directive fail through
+hive.py. summary and history still read local digests.
 """
 
 import argparse
-import asyncio
 import json
 import os
 import platform
@@ -37,7 +41,11 @@ DIGEST_FILE = REPORT_DIR / "latest-digest.json"
 HISTORY_DIR = REPORT_DIR / "history"
 HISTORY_DIR.mkdir(parents=True, exist_ok=True)
 HIVE_TOOL   = TOOL_DIR / "hive.py"
-FLEET_TOOL  = TOOL_DIR / "fleet.py"
+
+HIVE_RETIRED = (
+    "HIVE retired 2026-10-13: the NATS bus ran on Sentry in the Hetzner fleet, "
+    "which was decommissioned. There is no server to connect to."
+)
 
 # ─── Colours ──────────────────────────────────────────────────────────────────
 BOLD  = "\033[1m"
@@ -47,19 +55,6 @@ YELLOW= "\033[33m"
 CYAN  = "\033[36m"
 RED   = "\033[31m"
 RESET = "\033[0m"
-
-# ─── Cron install script (pushed to remote nodes) ─────────────────────────────
-REMOTE_CRON_SCRIPT = """#!/bin/bash
-# Hive report submission — installed by report.py
-# Runs every 15 minutes
-WORKSPACE="$HOME/.openclaw/workspace"
-LOG="$WORKSPACE/logs/report-cron.log"
-mkdir -p "$(dirname $LOG)"
-cd "$WORKSPACE" && python3 tools/report.py submit >> "$LOG" 2>&1
-"""
-
-CRON_EXPR = "*/15 * * * *"
-
 
 # ─── Local metrics collection ─────────────────────────────────────────────────
 
@@ -245,115 +240,10 @@ def cmd_submit(args):
 
 # ─── Collect ──────────────────────────────────────────────────────────────────
 
-async def _collect_reports(wait_seconds: int) -> list[dict]:
-    """Listen on #sync for REPORT_JSON payloads."""
-    import ssl as ssl_mod
-    import nats
-    from nacl.secret import SecretBox
-    import base64
-
-    config_path = Path.home() / ".openclaw" / ".hive-instance"
-    instance_id = config_path.read_text().strip() if config_path.exists() else "alpha"
-    key_b64     = (Path.home() / ".openclaw" / ".hive-key").read_text().strip()
-    key         = base64.b64decode(key_b64)
-    box         = SecretBox(key)
-
-    ca_path = Path.home() / ".openclaw" / ".hive" / "ca.pem"
-    creds   = {"alpha": ("alpha", "***REMOVED-ROTATE-ME***"), "beta": ("beta", "***REMOVED-ROTATE-ME***"), "gamma": ("gamma", "***REMOVED-ROTATE-ME***")}
-    user, pw = creds.get(instance_id, ("alpha", "***REMOVED-ROTATE-ME***"))
-
-    ssl_ctx = ssl_mod.create_default_context()
-    ssl_ctx.load_verify_locations(str(ca_path))
-
-    gathered = []
-    cutoff    = time.time() - wait_seconds
-
-    nc = await nats.connect(
-        "tls://135.181.28.252:4222",
-        user=user, password=pw,
-        tls=ssl_ctx, connect_timeout=10
-    )
-
-    js = nc.jetstream()
-
-    try:
-        # Pull from persisted sync stream
-        sub = await js.subscribe("hive.sync", durable=f"report-collector-{int(time.time())}", deliver_policy="last_per_subject")
-    except Exception:
-        try:
-            sub = await js.subscribe("hive.sync")
-        except Exception:
-            await nc.close()
-            return gathered
-
-    deadline = time.time() + wait_seconds
-    while time.time() < deadline:
-        try:
-            msgs = await sub.fetch(20, timeout=min(5, deadline - time.time()))
-            for msg in msgs:
-                await msg.ack()
-                try:
-                    # Decrypt envelope
-                    import hashlib
-                    raw = json.loads(msg.data.decode())
-                    payload_enc = raw.get("payload", "")
-                    decrypted   = box.decrypt(base64.b64decode(payload_enc)).decode("utf-8")
-                    # Extract embedded JSON
-                    if "REPORT_JSON:" in decrypted:
-                        start     = decrypted.index("REPORT_JSON:") + len("REPORT_JSON:")
-                        end       = decrypted.rindex("]")
-                        report    = json.loads(decrypted[start:end])
-                        if report.get("type") == "status_report":
-                            gathered.append(report)
-                except Exception:
-                    pass
-        except nats.errors.TimeoutError:
-            break
-        except Exception:
-            break
-
-    await nc.close()
-    return gathered
-
-
 def cmd_collect(args):
-    """Collect pending reports and produce a digest."""
-    wait = getattr(args, "wait", 30)
-    print(f"{BOLD}Collecting reports (waiting {wait}s)...{RESET}")
-
-    try:
-        reports = asyncio.run(_collect_reports(wait))
-    except Exception as e:
-        print(f"{YELLOW}Async collect failed ({e}), falling back to check...{RESET}")
-        reports = _collect_from_check()
-
-    if not reports:
-        print(f"{YELLOW}No reports received.{RESET}")
-        return
-
-    digest = _build_digest(reports)
-    _save_digest(digest)
-    _print_digest(digest)
-
-
-def _collect_from_check() -> list[dict]:
-    """Fallback: parse reports from hive.py check output."""
-    result = subprocess.run(
-        ["python3", str(HIVE_TOOL), "check"],
-        capture_output=True, text=True, cwd=str(TOOL_DIR.parent)
-    )
-    reports = []
-    for line in result.stdout.split("\n"):
-        if "REPORT_JSON:" in line:
-            try:
-                start  = line.index("REPORT_JSON:") + len("REPORT_JSON:")
-                end    = line.rindex("]")
-                report = json.loads(line[start:end])
-                if report.get("type") == "status_report":
-                    reports.append(report)
-            except Exception:
-                pass
-    return reports
+    """Retired 2026-10-13: the Hive bus is gone, so there is nothing to collect."""
+    print(f"{YELLOW}{HIVE_RETIRED}{RESET}", file=sys.stderr)
+    sys.exit(1)
 
 
 def _build_digest(reports: list[dict]) -> dict:
@@ -469,44 +359,10 @@ def cmd_directive(args):
 # ─── Install cron on remote node ──────────────────────────────────────────────
 
 def cmd_install(args):
-    """Deploy report.py + cron job to a remote fleet node."""
-    node_name = args.node
-    print(f"{BOLD}Installing report cron on {node_name}...{RESET}")
-
-    # Use fleet.py to deploy the tool
-    result = subprocess.run(
-        ["python3", str(FLEET_TOOL), "deploy", node_name,
-         str(Path(__file__)), "~/.openclaw/workspace/tools/report.py"],
-        capture_output=True, text=True, cwd=str(TOOL_DIR.parent)
-    )
-    if result.returncode != 0:
-        print(f"{RED}✗ Deploy failed: {result.stderr[:200]}{RESET}")
-        sys.exit(1)
-    print(f"  {GREEN}✓ report.py deployed{RESET}")
-
-    # Write cron script
-    cron_script_path = f"/tmp/hive-report-cron.sh"
-    write_result = subprocess.run(
-        ["python3", str(FLEET_TOOL), "run", node_name,
-         f"cat > {cron_script_path} << 'CRONEOF'\n{REMOTE_CRON_SCRIPT}\nCRONEOF\nchmod +x {cron_script_path}"],
-        capture_output=True, text=True, cwd=str(TOOL_DIR.parent)
-    )
-
-    # Install crontab entry
-    cron_result = subprocess.run(
-        ["python3", str(FLEET_TOOL), "run", node_name,
-         f'(crontab -l 2>/dev/null | grep -v hive-report; echo "{CRON_EXPR} {cron_script_path}") | crontab -'],
-        capture_output=True, text=True, cwd=str(TOOL_DIR.parent)
-    )
-    if cron_result.returncode == 0:
-        print(f"  {GREEN}✓ Cron job installed ({CRON_EXPR}){RESET}")
-    else:
-        print(f"  {YELLOW}⚠ Cron install: {cron_result.stderr[:200]}{RESET}")
-
-    print(f"\n{GREEN}Installation complete on {node_name}{RESET}")
-    print(f"  Schedule: every 15 minutes")
-    print(f"  Channel:  Hive #sync")
-    print(f"  Collect:  python3 tools/report.py collect")
+    """Retired 2026-10-13: the remote fleet nodes no longer exist."""
+    print(f"{YELLOW}Retired 2026-10-13: the Hetzner fleet nodes were decommissioned; "
+          f"nothing to install on.{RESET}", file=sys.stderr)
+    sys.exit(1)
 
 
 # ─── History ──────────────────────────────────────────────────────────────────
@@ -567,7 +423,7 @@ def main():
 
     # install
     i = sub.add_parser("install", help="Deploy report cron job to a remote node")
-    i.add_argument("node", help="Fleet node name (e.g. sentry, forge, lark)")
+    i.add_argument("node", help="Fleet node name (retired 2026-10-13)")
 
     # history
     h = sub.add_parser("history", help="Show digest history")

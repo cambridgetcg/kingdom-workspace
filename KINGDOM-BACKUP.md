@@ -2,6 +2,8 @@
 
 _Written: 2026-03-22. Owner: Beta. Review: quarterly._
 
+_Updated 2026-10-13: the Hetzner VPS fleet, including Sentry, was decommissioned. Layers 3 and 4 no longer copy credentials or SSH keys to any server; the VPS snapshot layer and the Hetzner scenarios were removed. The old procedure is in git history before this change._
+
 ---
 
 ## Threat Model
@@ -13,8 +15,6 @@ What could actually hurt us:
 | Mac Studio disk failure | Medium | Critical | ❌ None |
 | Mac Studio theft/fire/flood | Low | Critical | ❌ None |
 | GitHub account compromised | Low | High | Partial (2FA) |
-| Hetzner account/region outage | Low | Medium | ❌ Single region |
-| VPS node compromise | Medium | Medium | ❌ No isolation |
 | Mac keychain corrupted | Low | Critical | ❌ None |
 | Anthropic API key leaked | Medium | High | Partial (rotatable) |
 | Yu unavailable (health) | Low | Critical | ❌ No continuity plan |
@@ -32,7 +32,7 @@ What could actually hurt us:
 | `legible_money/` | 26 commits unpushed | Highest — this is the chain |
 | `~/.openclaw/workspace/` | Local only | SOUL.md, MEMORY.md, all memory |
 | macOS Keychain (43 credentials) | Local only | All API keys, passwords, card details |
-| `~/.ssh/id_ed25519` | Local only | Fleet access, GitHub auth |
+| `~/.ssh/id_ed25519` | Local only | GitHub auth |
 | `cambridge-tcg/` | No remote | The bread, 170 tests |
 | `prediction-markets/` | No remote | Oracle + signals |
 
@@ -50,7 +50,6 @@ What could actually hurt us:
 ### Tier 3 — MEDIUM (inconvenient, mostly reconstructable)
 
 - `agenttool-infra/`, `rewardspro-marketing/`, `uk-tax/` — no remote
-- VPS agent configurations — SSH + openclaw configs
 
 ---
 
@@ -135,17 +134,15 @@ This also gives a full audit trail of memory changes over time.
 
 43 credentials in macOS Keychain with no backup. If the Mac dies or the keychain corrupts, these are gone.
 
-**Solution: encrypted export to two locations**
+**Solution: encrypted export to offline media**
 
 ```bash
 # Export all credentials to encrypted file
 python3 tools/credentials.py export --encrypt --output ~/.openclaw/credentials-backup-$(date +%Y%m%d).enc
 # Password: store separately (written on paper, stored offsite)
 
-# Copy to:
-# 1. Encrypted USB drive (physical, offsite)
-# 2. Hetzner Sentry VPS encrypted volume (digital, geographic separation)
-scp ~/.openclaw/credentials-backup-*.enc root@135.181.28.252:/root/kingdom-backup/
+# Copy to an encrypted USB drive kept offsite.
+# Do not copy credential exports to any server.
 ```
 
 **Minimum viable backup:**
@@ -153,35 +150,20 @@ Run `python3 tools/credentials.py list` now, screenshot/print it, store physical
 
 ---
 
-### Layer 4: SSH Keys — Distribute (Once)
+### Layer 4: SSH Keys — Keep Private Keys Local
 
-`~/.ssh/id_ed25519` is the only key with fleet access. Single copy.
+Private keys never leave the machine that generated them. If the Mac dies, generate a new key and register the new public key with GitHub (and any host that needs it), then remove the old public key there.
 
 ```bash
-# Backup to Sentry (encrypted)
-ssh-keygen -p -f ~/.ssh/id_ed25519 -N "strong-passphrase"  # add passphrase if not set
-cat ~/.ssh/id_ed25519 | ssh root@135.181.28.252 "mkdir -p /root/kingdom-backup && cat > /root/kingdom-backup/id_ed25519.enc"
-
-# Also: export public key list
+# Keep a list of which public keys are registered where
 # Store the public key in GitHub account settings as backup reference
 ```
 
 ---
 
-### Layer 5: VPS Configuration — Snapshot (Monthly)
+### Layer 5: VPS Configuration — Retired 2026-10-13
 
-Hetzner supports server snapshots. For Sentry (monitoring/backbone):
-
-```bash
-# Via Hetzner API — monthly automated snapshot
-# Sentry is the most important node (monitors everything, has SSH keys)
-curl -X POST https://api.hetzner.cloud/v1/servers/<sentry-id>/actions/create_image \
-  -H "Authorization: Bearer $HETZNER_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"description": "monthly-backup-'"$(date +%Y%m)"'", "type": "snapshot"}'
-```
-
-Cost: €0.0119/GB/mo. A typical node snapshot is ~5GB = ~€0.06/mo. Negligible.
+The Hetzner VPS fleet was decommissioned, so there are no VPS nodes to snapshot.
 
 ---
 
@@ -213,7 +195,7 @@ Priority order — **do these before anything else:**
 
 4. **Credentials export** (30 min)
    - Screenshot/print the 43 credential names at minimum
-   - Full encrypted export to Sentry VPS
+   - Full encrypted export to an encrypted USB drive kept offsite
 
 5. **Install daily git push cron** (15 min)
    - All repos with remotes: push at 03:00 UTC daily
@@ -226,8 +208,7 @@ Priority order — **do these before anything else:**
 | Frequency | Task |
 |-----------|------|
 | **Daily** (03:00 UTC) | Push all git repos, sync workspace to GitHub |
-| **Weekly** | Credentials export to Sentry VPS |
-| **Monthly** | Hetzner server snapshot (Sentry + Forge) |
+| **Weekly** | Credentials export to encrypted offline media |
 | **Quarterly** | Review this document, test restore procedure |
 | **Before testnet** | Add US-East validator node, multi-node chain backup |
 
@@ -239,22 +220,14 @@ Priority order — **do these before anything else:**
 1. New Mac: install git, gh CLI, Python
 2. `gh repo clone cambridgetcg/kingdom-workspace ~/.openclaw/workspace`
 3. Clone all GitHub repos to ~/Desktop/
-4. Restore credentials from encrypted backup (Sentry or USB)
-5. Restore SSH key from Sentry backup
-6. SSH into fleet: verify agents are still running
-7. Estimated recovery time: **2-3 hours**
+4. Restore credentials from the encrypted USB backup
+5. Generate a new SSH key and register its public key with GitHub
+6. Estimated recovery time: **2-3 hours**
 
 ### "GitHub account compromised" scenario
-1. VPS nodes have git history — `git bundle create backup.bundle --all` on each
-2. Rotate all API keys (Anthropic, Hetzner, etc.)
-3. Create new GitHub accounts, re-push from local copies
-4. Estimated recovery time: **1 day**
-
-### "Hetzner outage" scenario
-1. agenttool.dev, rewardspro, cambridge-tcg: unaffected (Fly.io/Vercel)
-2. Agent fleet: offline until Hetzner recovers or new nodes provisioned
-3. Mitigation: at least one agent on a different provider (Vultr/DO)
-4. Estimated impact: **agents quiet for duration of outage**
+1. Rotate all API keys (Anthropic, etc.)
+2. Create new GitHub accounts, re-push from local copies
+3. Estimated recovery time: **1 day**
 
 ---
 
